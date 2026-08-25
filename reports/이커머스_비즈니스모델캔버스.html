@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FRESH.DATA 데이터마케팅팀 캔버스</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=Gowun+Dodum&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f5f7f1;
+    --surface: #fdfdfa;
+    --surface-2: #eef2e9;
+    --text: #1c2620;
+    --text-muted: #5a6759;
+    --border: #dde3d6;
+    --green: #2f6b4f;
+    --green-soft: #dfeadf;
+    --green-strong: #1f4d38;
+    --amber: #a85c1c;
+    --amber-soft: #f3e3d1;
+    --shadow: 0 1px 2px rgba(28,38,32,0.06), 0 8px 24px -12px rgba(28,38,32,0.12);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #12180f;
+      --surface: #1a2117;
+      --surface-2: #212a1d;
+      --text: #eaeee5;
+      --text-muted: #a3af9c;
+      --border: #2c362a;
+      --green: #7dc49a;
+      --green-soft: rgba(125,196,154,0.14);
+      --green-strong: #a8dcc0;
+      --amber: #e3a55f;
+      --amber-soft: rgba(227,165,95,0.14);
+      --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 8px 24px -12px rgba(0,0,0,0.5);
+    }
+  }
+
+  :root[data-theme="dark"] {
+    --bg: #12180f;
+    --surface: #1a2117;
+    --surface-2: #212a1d;
+    --text: #eaeee5;
+    --text-muted: #a3af9c;
+    --border: #2c362a;
+    --green: #7dc49a;
+    --green-soft: rgba(125,196,154,0.14);
+    --green-strong: #a8dcc0;
+    --amber: #e3a55f;
+    --amber-soft: rgba(227,165,95,0.14);
+    --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 8px 24px -12px rgba(0,0,0,0.5);
+  }
+
+  * { box-sizing: border-box; }
+
+  html { font-size: 112.5%; }
+
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: "Gowun Dodum", "Malgun Gothic", sans-serif;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .page { max-width: 1320px; margin: 0 auto; padding: 48px 24px 80px; }
+
+  header.hero {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding-bottom: 28px;
+    margin-bottom: 32px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .eyebrow {
+    font-size: 0.78rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--green);
+    font-weight: 700;
+  }
+
+  h1 {
+    font-family: "Gowun Batang", "Malgun Gothic", serif;
+    font-weight: 700;
+    font-size: clamp(1.7rem, 3.6vw, 2.3rem);
+    line-height: 1.32;
+    margin: 0;
+    text-wrap: balance;
+  }
+
+  .intro {
+    color: var(--text-muted);
+    font-size: 0.96rem;
+    max-width: 76ch;
+    margin: 4px 0 0;
+  }
+
+  .glossary {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+    margin-bottom: 28px;
+    box-shadow: var(--shadow);
+  }
+
+  .glossary-item {
+    background: var(--surface-2);
+    padding: 14px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .glossary-term {
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: var(--green-strong);
+  }
+
+  .glossary-def {
+    font-size: 0.8rem;
+    line-height: 1.5;
+    color: var(--text-muted);
+  }
+
+  @media (max-width: 760px) {
+    .glossary { grid-template-columns: 1fr 1fr; }
+  }
+  @media (max-width: 460px) {
+    .glossary { grid-template-columns: 1fr; }
+  }
+
+  /* Canvas grid — canonical Osterwalder layout */
+  .canvas {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1.2fr 1fr 1fr;
+    grid-template-rows: auto auto;
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+  }
+
+  .cell {
+    background: var(--surface);
+    padding: 20px 20px 22px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .cell-label {
+    font-family: "Gowun Batang", serif;
+    font-weight: 700;
+    font-size: 0.98rem;
+    color: var(--green-strong);
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .cell ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .cell li {
+    font-size: 0.85rem;
+    line-height: 1.5;
+    padding-left: 14px;
+    position: relative;
+  }
+
+  .cell li::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0.55em;
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: var(--green);
+  }
+
+  .cell li b { color: var(--text); font-weight: 700; }
+
+  /* grid placement */
+  .partners   { grid-area: 1 / 1 / 3 / 2; }
+  .activities { grid-area: 1 / 2 / 2 / 3; }
+  .resources  { grid-area: 2 / 2 / 3 / 3; }
+  .value      { grid-area: 1 / 3 / 3 / 4; background: var(--green-soft); }
+  .relations  { grid-area: 1 / 4 / 2 / 5; }
+  .channels   { grid-area: 2 / 4 / 3 / 5; }
+  .segments   { grid-area: 1 / 5 / 3 / 6; }
+
+  .value .cell-label { color: var(--green-strong); border-bottom-color: color-mix(in srgb, var(--green) 30%, transparent); }
+
+  .value-split {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .value-group .vg-label {
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--green);
+    margin-bottom: 6px;
+  }
+
+  /* footer row: cost + revenue */
+  .footer-row {
+    display: grid;
+    grid-template-columns: 1.15fr 1fr;
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    border-top: none;
+    border-radius: 0 0 12px 12px;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+    margin-top: -1px;
+  }
+
+  .footer-row .cell-label { color: var(--text); }
+  .cost .cell-label { color: var(--amber); }
+  .revenue { background: var(--surface); }
+  .cost { background: var(--amber-soft); }
+
+  .cost-split, .revenue-list {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .cost-group .cg-label {
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--amber);
+    margin-bottom: 6px;
+  }
+
+  .cost .cell li::before { background: var(--amber); }
+
+  footer.page-footer {
+    border-top: 1px solid var(--border);
+    padding-top: 20px;
+    margin-top: 32px;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 10px;
+    font-size: 0.82rem;
+    color: var(--text-muted);
+  }
+
+  @media (max-width: 1000px) {
+    .canvas {
+      grid-template-columns: 1fr;
+      grid-template-rows: none;
+    }
+    .partners, .activities, .resources, .value, .relations, .channels, .segments {
+      grid-area: auto;
+    }
+    .footer-row { grid-template-columns: 1fr; }
+  }
+
+  :focus-visible { outline: 2px solid var(--green); outline-offset: 2px; }
+</style>
+</head>
+<body>
+
+<div class="page">
+
+  <header class="hero">
+    <span class="eyebrow">Business Model Canvas · 사내 공유용</span>
+    <h1>FRESH.DATA 데이터마케팅팀 매출개선 캔버스</h1>
+    <p class="intro">저희는 외부 컨설팅사가 아니라, <b>FRESH.DATA 사내 데이터마케팅(DM)팀</b>입니다. 2025년 9~10월 매출 하락을 보고 "우리 회사만의 문제인지, 있다면 어디에 자원을 집중해야 하는지"를 직접 데이터로 확인하기로 했습니다. 원본 데이터에 쿠폰노출(Treatment) 컬럼이 없다는 걸 확인해 <b>Treatment를 구독여부(멤버십)로 재정의</b>하고, 가격구간·지역배송·계절성·연령성별 4개 축(H1~H4)에서 프로모션 반응이 갈리는지를 Uplift 모델로 검증할 계획입니다. 이 캔버스는 <b>본격적인 모델링 착수 직전</b>, 전처리·가설 설계가 끝난 시점을 기준으로 정리했습니다. 외부 업체가 아니라 사내 부서이다 보니, "수익원" 블록은 <b>회사에 기여하는 성과(매출 기여·비용 절감)</b>로 바꿔 읽었습니다.</p>
+  </header>
+
+  <div class="glossary">
+    <div class="glossary-item">
+      <span class="glossary-term">Uplift(업리프트)</span>
+      <span class="glossary-def">구독 유도 같은 조치를 했을 때, 안 했을 경우와 비교해 실제로 늘어나는 순증 효과. "어차피 살 사람"은 빼고, 조치 덕분에 산 사람만 골라내는 지표.</span>
+    </div>
+    <div class="glossary-item">
+      <span class="glossary-term">RFM</span>
+      <span class="glossary-def">최근 구매일(Recency)·구매 빈도(Frequency)·구매 금액(Monetary) 3가지로 고객의 구매 습관을 요약한 지표.</span>
+    </div>
+    <div class="glossary-item">
+      <span class="glossary-term">region_tier</span>
+      <span class="glossary-def">새벽배송·무료배송 가능 여부 등 배송 조건을 기준으로 지역을 등급화한 자체 분류값(Tier1~3).</span>
+    </div>
+    <div class="glossary-item">
+      <span class="glossary-term">Holdout</span>
+      <span class="glossary-def">모델 학습에는 쓰지 않고 따로 떼어둔 검증용 기간. 학습 기간(Train) 이후 실제로 예측이 맞았는지 확인하는 용도.</span>
+    </div>
+  </div>
+
+  <div class="canvas">
+
+    <div class="cell partners">
+      <div class="cell-label">중요한 파트너</div>
+      <div>
+        <div class="value-group"><div class="vg-label">사내 부서</div>
+          <ul><li>상품기획팀 — 가격정책·상품구성 관련 협의</li>
+              <li>물류/배송팀 — 권역별 배송조건(새벽배송 등) 정의</li>
+              <li>고객센터(CS) — 이탈 사유·구독 해지 피드백</li>
+              <li>IT/데이터팀 — 데이터 인프라·파이프라인 운영 지원</li></ul>
+        </div>
+        <div class="value-group" style="margin-top:14px;"><div class="vg-label">외부</div>
+          <ul><li>공공데이터(통계청 등) — 시장 벤치마킹용 외부지표</li>
+              <li>오픈소스 분석 생태계(scikit-learn·sklift 등)</li>
+              <li>결제·배송 파트너사(PG사 등)</li></ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="cell activities">
+      <div class="cell-label">핵심 비즈니스</div>
+      <ul>
+        <li>사내 고객·상품·주문 데이터 통합·전처리(3테이블 병합, 결측·이상치 검증)</li>
+        <li><b>H1~H4 가설 검증</b> — 가격구간·지역×배송·계절×제철상품·연령×성별 축에서 구독 유도 반응이 갈리는지 확인(누구에게 줄 것인가)</li>
+        <li>Treatment(구독여부)/Y(재구매여부) 정의 및 Uplift 모델(T-learner) 설계</li>
+        <li>개인별 타겟팅 리스트·사내 대시보드 구축, 캠페인팀에 실행안 전달</li>
+      </ul>
+    </div>
+
+    <div class="cell resources">
+      <div class="cell-label">핵심 리소스</div>
+      <div class="value-group"><div class="vg-label">실체 자원</div>
+        <ul><li>회사가 보유한 Customer·Product·Order 데이터</li><li>분석·대시보드 코드 자산(전처리~시각화 파이프라인)</li></ul>
+      </div>
+      <div class="value-group" style="margin-top:10px;"><div class="vg-label">가상 자원</div>
+        <ul><li>Uplift 분석 역량 — RFM·가격구간·region_tier·제철태깅 등 핵심 파생변수 설계</li>
+            <li>Train(9월)/Holdout(10~11월) 시간분할 검증 체계</li>
+            <li>DM팀의 도메인 지식(이커머스·마케팅 통계)</li></ul>
+      </div>
+    </div>
+
+    <div class="cell value">
+      <div class="cell-label">가치 제안</div>
+      <div class="value-split">
+        <div class="value-group">
+          <div class="vg-label">1. 의사결정 리스크 절감</div>
+          <ul>
+            <li>"감"이 아닌 데이터로 뒷받침된 의사결정 — 프로모션 예산 낭비 방지</li>
+            <li>매출 하락이 시장 전체 요인인지 우리 회사 고유 문제인지 명확히 구분</li>
+          </ul>
+        </div>
+        <div class="value-group">
+          <div class="vg-label">2. 실행 가능성</div>
+          <ul>
+            <li>바로 쓸 수 있는 <b>개인별 타겟팅 리스트</b>(Tier1/2/3)</li>
+            <li>직접 조작 가능한 <b>사내 대시보드</b>(전략 시뮬레이션 포함)</li>
+            <li>경영진 보고·캠페인 실행에 바로 쓰는 리더보드·근거 문서</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="cell relations">
+      <div class="cell-label">협업 관계</div>
+      <ul>
+        <li>경영진 정기 보고 — 착수(데이터 검증)부터 대시보드 인수인계까지</li>
+        <li>캠페인팀과의 실행 협업(타겟팅 리스트 전달, 캠페인 결과 피드백 수렴)</li>
+        <li>분석 결과에 대한 근거·한계까지 투명하게 공유(신뢰 기반 관계)</li>
+      </ul>
+    </div>
+
+    <div class="cell channels">
+      <div class="cell-label">채널</div>
+      <ul>
+        <li>사내 대시보드(Streamlit) — 관련 부서가 직접 조작하는 결과물</li>
+        <li>분석 리포트·사내 발표자료 — 경영진 대상 요약</li>
+        <li>원자료·코드(CSV·스크립트·노트북) — 사내에서 재현 가능한 형태로 공유</li>
+      </ul>
+    </div>
+
+    <div class="cell segments">
+      <div class="cell-label">고객 세분화 <span style="font-size:0.7rem; color:var(--text-muted); font-weight:400;">(=이 분석을 활용하는 사내 이해관계자)</span></div>
+      <ul>
+        <li>경영진 — 매출 하락 원인 진단, 전략 의사결정</li>
+        <li>마케팅/캠페인팀 — 타겟팅 리스트를 실제 프로모션 실행에 활용</li>
+        <li>상품기획팀 — 가격구간별 반응 차이를 가격정책에 참고</li>
+        <li>CS/구독관리팀 — 이탈위험 고객 관리에 활용</li>
+      </ul>
+    </div>
+
+  </div>
+
+  <div class="footer-row">
+    <div class="cell cost">
+      <div class="cell-label">비용 구조</div>
+      <div class="cost-split">
+        <div class="cost-group"><div class="cg-label">고정 비용</div>
+          <ul><li>DM팀 인건비</li><li>분석·인프라 비용(컴퓨팅, 소프트웨어 라이선스)</li></ul>
+        </div>
+        <div class="cost-group"><div class="cg-label">변동 비용</div>
+          <ul><li>캠페인 실행 비용(프로모션 예산 집행)</li>
+              <li>사내 대시보드 유지·운영비</li></ul>
+        </div>
+      </div>
+    </div>
+    <div class="cell revenue">
+      <div class="cell-label">기대 성과 <span style="font-size:0.7rem; color:var(--text-muted); font-weight:400;">(내부 부서라 직접 매출은 없음 — 회사에 기여하는 성과로 대체)</span></div>
+      <ul class="revenue-list">
+        <li>재구매율 개선을 통한 매출 기여분</li>
+        <li>비효율 프로모션 예산 절감(Sure Thing·Sleeping Dog 대상 제외)</li>
+        <li>(확장 가능성) 이 분석 프로세스를 전사 캠페인 표준으로 확산</li>
+      </ul>
+    </div>
+  </div>
+
+  <footer class="page-footer">
+    <span>FRESH.DATA 데이터마케팅(DM)팀 · 빅데이터 프로젝트팀</span>
+    <span>위기 브리핑 · 이슈트리 · 분석 로드맵 · 전처리 계획(H1~H4) 기반 작성 — 모델링 착수 직전 스냅샷</span>
+  </footer>
+
+</div>
+
+</body>
+</html>

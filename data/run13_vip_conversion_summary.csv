@@ -1,0 +1,2 @@
+﻿population_n,actual_conversion_rate,auc_logit,auc_rf,rf_best_params
+9385,0.017581246670218435,0.8540075730332325,0.8812641465530006,"{'max_depth': None, 'min_samples_leaf': 30, 'n_estimators': 200}"

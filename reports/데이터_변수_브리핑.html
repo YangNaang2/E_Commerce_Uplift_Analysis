@@ -1,0 +1,509 @@
+<title>이커머스 데이터 변수 브리핑</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=Gowun+Dodum&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f5f7f1;
+    --surface: #fdfdfa;
+    --surface-2: #eef2e9;
+    --text: #1c2620;
+    --text-muted: #5a6759;
+    --border: #dde3d6;
+    --green: #2f6b4f;
+    --green-soft: #dfeadf;
+    --green-strong: #1f4d38;
+    --amber: #a85c1c;
+    --amber-soft: #f3e3d1;
+    --blue: #3a5f8a;
+    --blue-soft: #dde7f0;
+    --shadow: 0 1px 2px rgba(28,38,32,0.06), 0 8px 24px -12px rgba(28,38,32,0.12);
+    --c-green: #2f8f63;
+    --c-green-2: #6fb797;
+    --c-green-3: #a9d3bd;
+    --c-amber: #c17a2e;
+    --c-muted: #b9c2b7;
+    --c-grid: rgba(28,38,32,0.10);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #12180f; --surface: #1a2117; --surface-2: #212a1d;
+      --text: #eaeee5; --text-muted: #a3af9c; --border: #2c362a;
+      --green: #7dc49a; --green-soft: rgba(125,196,154,0.14); --green-strong: #a8dcc0;
+      --amber: #e3a55f; --amber-soft: rgba(227,165,95,0.14);
+      --blue: #8fb3d9; --blue-soft: rgba(143,179,217,0.14);
+      --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 8px 24px -12px rgba(0,0,0,0.5);
+      --c-green: #3d9e6f; --c-green-2: #5cae85; --c-green-3: #3a4a40;
+      --c-amber: #b8752e; --c-muted: #4a544c; --c-grid: rgba(234,238,229,0.10);
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #12180f; --surface: #1a2117; --surface-2: #212a1d;
+    --text: #eaeee5; --text-muted: #a3af9c; --border: #2c362a;
+    --green: #7dc49a; --green-soft: rgba(125,196,154,0.14); --green-strong: #a8dcc0;
+    --amber: #e3a55f; --amber-soft: rgba(227,165,95,0.14);
+    --blue: #8fb3d9; --blue-soft: rgba(143,179,217,0.14);
+    --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 8px 24px -12px rgba(0,0,0,0.5);
+    --c-green: #3d9e6f; --c-green-2: #5cae85; --c-green-3: #3a4a40;
+    --c-amber: #b8752e; --c-muted: #4a544c; --c-grid: rgba(234,238,229,0.10);
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--bg); color: var(--text);
+    font-family: "Gowun Dodum", "Malgun Gothic", sans-serif;
+    line-height: 1.55; -webkit-font-smoothing: antialiased;
+  }
+  .page { max-width: 1220px; margin: 0 auto; padding: 44px 22px 72px; }
+
+  header.hero {
+    display: flex; flex-direction: column; gap: 8px;
+    padding-bottom: 22px; margin-bottom: 30px; border-bottom: 1px solid var(--border);
+  }
+  .eyebrow {
+    font-size: 0.78rem; letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--green); font-weight: 700;
+  }
+  h1 {
+    font-family: "Gowun Batang", serif; font-weight: 700;
+    font-size: clamp(1.6rem, 3.4vw, 2.1rem); line-height: 1.3; margin: 0; text-wrap: balance;
+  }
+  .meta-chips { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 4px; }
+  .chip {
+    font-size: 0.78rem; padding: 4px 11px; border-radius: 999px;
+    background: var(--surface-2); border: 1px solid var(--border); color: var(--text-muted);
+  }
+
+  .person-section { margin-bottom: 46px; }
+  .person-head {
+    display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap;
+    border-bottom: 1px solid var(--border); padding-bottom: 10px; margin-bottom: 18px;
+  }
+  .person-num {
+    font-family: "Gowun Batang", serif; font-weight: 700; font-size: 1.4rem; color: var(--green-strong);
+  }
+  .person-title { font-family: "Gowun Batang", serif; font-weight: 700; font-size: 1.15rem; color: var(--text); }
+  .person-table {
+    font-size: 0.78rem; color: var(--text-muted); background: var(--surface-2);
+    border: 1px solid var(--border); border-radius: 999px; padding: 3px 10px; margin-left: auto;
+  }
+
+  .card-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 12px;
+  }
+  .vcard {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 10px;
+    padding: 14px 16px; box-shadow: var(--shadow); display: flex; flex-direction: column; gap: 7px;
+  }
+  .vcard-top { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+  .vname { font-weight: 700; font-size: 0.98rem; }
+  .vtype {
+    font-size: 0.68rem; font-weight: 700; padding: 2px 8px; border-radius: 999px;
+    white-space: nowrap; letter-spacing: 0.02em;
+  }
+  .vtype.discrete { background: var(--blue-soft); color: var(--blue); }
+  .vtype.continuous { background: var(--green-soft); color: var(--green-strong); }
+  .vtype.mixed { background: linear-gradient(90deg, var(--green-soft) 50%, var(--amber-soft) 50%); color: var(--text); }
+  .vtype.date { background: var(--amber-soft); color: var(--amber); }
+
+  .vstat {
+    font-family: "Gowun Batang", serif; font-weight: 700; font-size: 1.25rem; color: var(--green-strong);
+    font-variant-numeric: tabular-nums;
+  }
+  .vdesc { font-size: 0.82rem; color: var(--text-muted); }
+  .vflag {
+    font-size: 0.82rem; color: var(--amber); background: var(--amber-soft);
+    border-radius: 6px; padding: 5px 8px; margin-top: 1px;
+  }
+
+  .c-stack { display: flex; height: 20px; border-radius: 4px; overflow: hidden; width: 100%; }
+  .c-stack > div { height: 100%; position: relative; }
+  .c-stack .s-a { background: var(--c-green); }
+  .c-stack .s-b { background: var(--c-amber); }
+  .c-stack .s-u {
+    background: repeating-linear-gradient(45deg, var(--c-muted) 0 4px, transparent 4px 8px);
+    background-color: var(--surface-2);
+  }
+  .c-legend { display: flex; gap: 12px; flex-wrap: wrap; font-size: 0.72rem; color: var(--text-muted); }
+  .c-legend .sw { display: inline-flex; align-items: center; gap: 4px; }
+  .c-legend .sw i { width: 8px; height: 8px; border-radius: 2px; display: inline-block; }
+  .c-legend .sw i.a { background: var(--c-green); }
+  .c-legend .sw i.b { background: var(--c-amber); }
+  .c-legend .sw i.u { background: var(--c-muted); }
+  .c-legend b { color: var(--text); font-weight: 700; }
+
+  .c-rank { display: flex; flex-direction: column; gap: 4px; }
+  .c-rank .row { display: grid; grid-template-columns: 76px 1fr 40px; align-items: center; gap: 6px; }
+  .c-rank .lbl { font-size: 0.72rem; color: var(--text-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .c-rank .track { height: 10px; background: var(--surface-2); border-radius: 3px; overflow: hidden; }
+  .c-rank .fill { height: 100%; border-radius: 3px; background: var(--c-green); }
+  .c-rank .fill.amber { background: var(--c-amber); }
+  .c-rank .val { font-size: 0.72rem; color: var(--text-muted); text-align: right; font-variant-numeric: tabular-nums; }
+
+  .c-pair { display: flex; gap: 18px; align-items: flex-end; height: 78px; padding-top: 22px; }
+  .c-pair .bar-wrap { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 4px; }
+  .c-pair .bar { width: 100%; max-width: 52px; background: var(--c-green); border-radius: 4px 4px 2px 2px; position: relative; }
+  .c-pair .bar.amber { background: var(--c-amber); }
+  .c-pair .bv { font-size: 0.72rem; font-weight: 700; color: var(--text); position: absolute; top: -18px; left: 0; right: 0; text-align: center; }
+  .c-pair .bl { font-size: 0.7rem; color: var(--text-muted); }
+
+  .c-usage-track { height: 10px; background: var(--surface-2); border-radius: 3px; overflow: hidden; }
+  .c-usage-fill { height: 100%; background: var(--c-green); border-radius: 3px; }
+
+  .c-dotaxis { position: relative; height: 44px; }
+  .c-dotaxis .axis-line { position: absolute; top: 26px; left: 0; right: 0; height: 1px; background: var(--border); }
+  .c-dotaxis .pt { position: absolute; top: 20px; width: 11px; height: 11px; border-radius: 50%; transform: translateX(-50%); border: 2px solid var(--surface); }
+  .c-dotaxis .pt.md { background: var(--c-green); }
+  .c-dotaxis .pt.mn { background: var(--c-green-2); }
+  .c-dotaxis .pt.mx { background: var(--c-amber); }
+  .c-dotaxis .lbl { position: absolute; top: -2px; font-size: 0.68rem; color: var(--text-muted); transform: translateX(-50%); white-space: nowrap; }
+
+  footer.page-footer {
+    border-top: 1px solid var(--border); padding-top: 18px; margin-top: 20px;
+    display: flex; justify-content: space-between; flex-wrap: wrap; gap: 10px;
+    font-size: 0.8rem; color: var(--text-muted);
+  }
+  :focus-visible { outline: 2px solid var(--green); outline-offset: 2px; }
+</style>
+
+<div class="page">
+
+  <header class="hero">
+    <span class="eyebrow">Column Briefing · 발표용 요약</span>
+    <h1>데이터 변수 브리핑 (변수 21개)</h1>
+    <div class="meta-chips">
+      <span class="chip">Member_Data 12,540건</span>
+      <span class="chip">Sales_Data 668,111건</span>
+      <span class="chip">Product_Data 2,549건</span>
+    </div>
+  </header>
+
+  <!-- 담당자 1 -->
+  <div class="person-section">
+    <div class="person-head">
+      <span class="person-num">01</span>
+      <span class="person-title">고객 인구통계</span>
+      <span class="person-table">Member_Data</span>
+    </div>
+    <div class="card-grid">
+
+      <div class="vcard">
+        <div class="vcard-top"><span class="vname">성별</span><span class="vtype discrete">범주형(명목형)</span></div>
+        <div class="vflag">여성과 남성 비율의 편차가 심함</div>
+        <div class="c-stack" title="여성 94.05% · 남성 5.94% · 결측 0.01%">
+          <div class="s-a" style="width:94.05%"></div>
+          <div class="s-b" style="width:5.94%"></div>
+          <div class="s-u" style="width:0.01%"></div>
+        </div>
+        <div class="c-legend"><span class="sw"><i class="a"></i>여성 <b>94.1%</b></span><span class="sw"><i class="b"></i>남성 <b>5.9%</b></span></div>
+        <div class="vdesc">결측치 없음. 다만 여성 쪽 비율이 압도적으로 높음.</div>
+      </div>
+
+      <div class="vcard">
+        <div class="vcard-top"><span class="vname">나이</span><span class="vtype continuous">연속형</span></div>
+        <div class="vflag ok">품질 최상 — 담당 변수 중 유일한 무결측</div>
+        <div class="c-rank">
+          <div class="row"><span class="lbl">10대</span><div class="track"><div class="fill" style="width:0.3%"></div></div><span class="val">0.1%</span></div>
+          <div class="row"><span class="lbl">20대</span><div class="track"><div class="fill" style="width:31.5%"></div></div><span class="val">12.0%</span></div>
+          <div class="row"><span class="lbl">30대</span><div class="track"><div class="fill" style="width:100%"></div></div><span class="val">38.1%</span></div>
+          <div class="row"><span class="lbl">40대</span><div class="track"><div class="fill" style="width:69.3%"></div></div><span class="val">26.4%</span></div>
+          <div class="row"><span class="lbl">50대</span><div class="track"><div class="fill" style="width:37.0%"></div></div><span class="val">14.1%</span></div>
+          <div class="row"><span class="lbl">60대+</span><div class="track"><div class="fill" style="width:24.1%"></div></div><span class="val">9.2%</span></div>
+        </div>
+        <div class="vdesc">10대는 15명(0.1%)뿐. 중위 39세 · 결측 0건. 30대 분포가 가장 많음.</div>
+      </div>
+
+      <div class="vcard">
+        <div class="vcard-top"><span class="vname">결혼</span><span class="vtype discrete">범주형(명목형)</span></div>
+        <div class="vflag">연령·성별과 통계적 독립(p=0.674/0.921) — 변수 신뢰성 자체 의심</div>
+        <div class="c-stack" title="기혼 41.1% · 미혼 37.2% · 결측 21.7%">
+          <div class="s-a" style="width:41.14%"></div>
+          <div class="s-b" style="width:37.19%"></div>
+          <div class="s-u" style="width:21.67%"></div>
+        </div>
+        <div class="c-legend"><span class="sw"><i class="a"></i>기혼 <b>41.1%</b></span><span class="sw"><i class="b"></i>미혼 <b>37.2%</b></span><span class="sw"><i class="u"></i>결측 <b>21.7%</b></span></div>
+        <div class="vdesc">결측을 미혼으로 대체하면 21.7%p 과대추정.</div>
+      </div>
+
+      <div class="vcard" style="grid-column: span 2;">
+        <div class="vcard-top"><span class="vname">등록카드</span><span class="vtype discrete">범주형(명목형)</span></div>
+        <div class="vflag">은행·카드·간편결제가 한 컬럼에 혼재</div>
+        <div style="display:flex; gap:24px; flex-wrap:wrap;">
+          <div style="flex:1; min-width:220px; display:flex; flex-direction:column; gap:7px;">
+            <div style="display:flex; align-items:center; gap:14px;">
+              <svg viewBox="0 0 100 100" width="84" height="84" role="img" aria-label="등록카드 결제수단 비중 파이차트, 상위 4종과 그 외 20종">
+                <g transform="rotate(-90 50 50)">
+                  <circle cx="50" cy="50" r="38" fill="none" stroke="var(--c-amber)" stroke-width="16" stroke-dasharray="34.15 204.61" stroke-dashoffset="0"/>
+                  <circle cx="50" cy="50" r="38" fill="none" stroke="var(--c-green)" stroke-width="16" stroke-dasharray="32.71 206.05" stroke-dashoffset="-34.15"/>
+                  <circle cx="50" cy="50" r="38" fill="none" stroke="var(--blue)" stroke-width="16" stroke-dasharray="26.26 212.50" stroke-dashoffset="-66.86"/>
+                  <circle cx="50" cy="50" r="38" fill="none" stroke="var(--c-green-2)" stroke-width="16" stroke-dasharray="26.02 212.74" stroke-dashoffset="-93.12"/>
+                  <circle cx="50" cy="50" r="38" fill="none" stroke="var(--c-muted)" stroke-width="16" stroke-dasharray="119.62 119.14" stroke-dashoffset="-119.14"/>
+                </g>
+              </svg>
+              <div class="c-legend" style="flex-direction:column; align-items:flex-start; gap:4px;">
+                <span class="sw"><i style="background:var(--c-amber)"></i>롯데카드 <b>14.3%</b></span>
+                <span class="sw"><i style="background:var(--c-green)"></i>국민은행 <b>13.7%</b></span>
+                <span class="sw"><i style="background:var(--blue)"></i>연결앱결제 <b>11.0%</b></span>
+                <span class="sw"><i style="background:var(--c-green-2)"></i>신한은행 <b>10.9%</b></span>
+                <span class="sw"><i style="background:var(--c-muted)"></i>그 외 20종 <b>50.1%</b></span>
+              </div>
+            </div>
+            <div class="vdesc">주 결제수단 없이 24종으로 파편화.</div>
+          </div>
+          <div style="flex:1; min-width:200px; display:flex; flex-direction:column; justify-content:center; gap:8px;">
+            <div class="c-stack" title="은행·금융기관 58.1% · 카드사 30.5% · 간편결제+증권사 11.3%">
+              <div class="s-a" style="width:58.06%"></div>
+              <div class="s-b" style="width:30.53%"></div>
+              <div class="s-u" style="width:11.41%"></div>
+            </div>
+            <div class="c-legend"><span class="sw"><i class="a"></i>은행 <b>58.1%</b></span><span class="sw"><i class="b"></i>카드사 <b>30.5%</b></span><span class="sw"><i class="u"></i>간편결제 등 <b>11.3%</b></span></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- 담당자 2 -->
+  <div class="person-section">
+    <div class="person-head">
+      <span class="person-num">02</span>
+      <span class="person-title">고객 지역 · 멤버십</span>
+      <span class="person-table">Member_Data</span>
+    </div>
+    <div class="card-grid">
+
+      <div class="vcard">
+        <div class="vcard-top"><span class="vname">주소지</span><span class="vtype discrete">범주형(명목형)</span></div>
+        <div class="vflag">"경기"·"광주"·"서울"·"강원" 등 축약표기 — 정규화 선행 필요</div>
+        <div class="c-rank">
+          <div class="row"><span class="lbl">경기도</span><div class="track"><div class="fill" style="width:100%"></div></div><span class="val">18.2%</span></div>
+          <div class="row"><span class="lbl">서울특별시</span><div class="track"><div class="fill" style="width:64.8%"></div></div><span class="val">11.8%</span></div>
+          <div class="row"><span class="lbl">부산광역시</span><div class="track"><div class="fill" style="width:61.0%"></div></div><span class="val">11.1%</span></div>
+          <div class="row"><span class="lbl">경상남도</span><div class="track"><div class="fill" style="width:57.1%"></div></div><span class="val">10.4%</span></div>
+        </div>
+        <div class="vdesc">나머지 13개 지역이 48.5%. 수도권+경상권 편중, 오염값 20건.</div>
+      </div>
+
+      <div class="vcard">
+        <div class="vcard-top"><span class="vname">세부주소지</span><span class="vtype discrete">범주형(명목형)</span></div>
+        <div class="vflag">세부주소지만으로는 위치를 알 수 없음 — 항상 주소지와 같이 봐야 함</div>
+        <div class="vstat">215종</div>
+        <div class="vdesc">같은 이름의 동네가 여러 도시에 있음. 예: "서구"는 대전·부산·광주에도 있음(최다 434건).</div>
+      </div>
+
+      <div class="vcard">
+        <div class="vcard-top"><span class="vname">구독여부</span><span class="vtype discrete">범주형(명목형)</span></div>
+        <div class="vflag">결측을 False로 대체 금지 — 미가입 비율 과대추정 위험</div>
+        <div class="c-stack" title="미가입 67.3% · 가입 14.0% · 결측 18.7%">
+          <div class="s-a" style="width:67.3%"></div>
+          <div class="s-b" style="width:14.0%"></div>
+          <div class="s-u" style="width:18.7%"></div>
+        </div>
+        <div class="c-legend"><span class="sw"><i class="a"></i>미가입 <b>67.3%</b></span><span class="sw"><i class="b"></i>가입 <b>14.0%</b></span><span class="sw"><i class="u"></i>결측 <b>18.7%</b></span></div>
+      </div>
+
+      <div class="vcard">
+        <div class="vcard-top"><span class="vname">회원상태</span><span class="vtype discrete">범주형(명목형)</span></div>
+        <div class="vflag">극단적 클래스 불균형 — 이탈예측 타겟으로 그대로 쓰기 위험</div>
+        <div class="c-stack" title="정상회원 98.72% · 탈퇴관련 1.27%">
+          <div class="s-a" style="width:98.72%"></div>
+          <div class="s-b" style="width:1.27%"></div>
+        </div>
+        <div class="c-legend"><span class="sw"><i class="a"></i>정상회원 <b>98.7%</b></span><span class="sw"><i class="b"></i>탈퇴관련 <b>1.3%</b></span></div>
+        <div class="vdesc">탈퇴/탈퇴처리중/탈퇴신청 합쳐도 159건뿐.</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- 담당자 3 -->
+  <div class="person-section">
+    <div class="person-head">
+      <span class="person-num">03</span>
+      <span class="person-title">거래금액 · 포인트</span>
+      <span class="person-table">Sales_Data</span>
+    </div>
+    <div class="card-grid">
+
+      <div class="vcard">
+        <div class="vcard-top"><span class="vname">구매수량</span><span class="vtype continuous">연속형</span></div>
+        <div class="vflag">중량제 건은 별도 플래그, "개수"로 반올림 금지</div>
+        <div class="c-stack" title="1개 85.66% · 2개 10.61% · 3개+ 2.81% · 1개미만 0.63%">
+          <div class="s-a" style="width:85.66%"></div>
+          <div style="width:10.61%;background:var(--c-green-2);"></div>
+          <div style="width:2.81%;background:var(--c-green-3);"></div>
+          <div class="s-b" style="width:0.63%"></div>
+        </div>
+        <div class="c-legend"><span class="sw"><i class="a"></i>1개 <b>85.7%</b></span><span class="sw" style="color:var(--text-muted)"><i style="background:var(--c-green-2)"></i>2개 <b>10.6%</b></span><span class="sw"><i class="b"></i>1개미만(중량제) <b>0.63%</b></span></div>
+        <div class="vdesc">묶음구매 비중 낮음. 중량제 소분 판매 존재.</div>
+      </div>
+
+      <div class="vcard">
+        <div class="vcard-top"><span class="vname">구매금액</span><span class="vtype continuous">연속형</span></div>
+        <div class="vflag">가격별 편차가 매우 큼</div>
+        <div class="c-dotaxis">
+          <div class="axis-line"></div>
+          <div class="lbl" style="left:8%;">184원</div>
+          <div class="pt md" style="left:38%;" title="중앙값 7,658원"></div>
+          <div class="pt mn" style="left:46%;" title="평균 11,822원"></div>
+          <div class="pt mx" style="left:92%;" title="최댓값 2,890,766원"></div>
+          <div class="lbl" style="left:92%;">2,890,766원</div>
+        </div>
+        <div class="vstat">377×</div>
+        <div class="vdesc">가장 비싼 주문(2,890,766원)이 가장 흔한 주문 금액(중앙값 7,658원)의 377배입니다. 평균(11,822원)이 중앙값보다 높은 것도 소수의 초고액 주문이 원인.</div>
+      </div>
+
+      <div class="vcard">
+        <div class="vcard-top"><span class="vname">사용 적립금</span><span class="vtype continuous">연속형</span></div>
+        <div class="vflag">고객이 결제시점에 스스로 선택 — 활용 방안 논의 필요</div>
+        <div class="c-usage-track"><div class="c-usage-fill" style="width:4.28%"></div></div>
+        <div class="vstat">4.28%</div>
+        <div class="vdesc">28,616건에서만 사용. 적립금을 쓴 주문은 평균 구매금액이 5,418원 더 높음(11,590원 → 17,008원).</div>
+      </div>
+
+      <div class="vcard">
+        <div class="vcard-top"><span class="vname">사용 포인트(네이버)</span><span class="vtype continuous">연속형</span></div>
+        <div class="vflag">표본 극소</div>
+        <div class="c-usage-track"><div class="c-usage-fill" style="width:1.07%;background:var(--c-amber);"></div></div>
+        <div class="vstat">1.07%</div>
+        <div class="vdesc">7,178건만 사용. AOV 차이 거의 없음(11,823 vs 11,727원).</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- 담당자 4 -->
+  <div class="person-section">
+    <div class="person-head">
+      <span class="person-num">04</span>
+      <span class="person-title">거래 시간 · 배송 · 취소</span>
+      <span class="person-table">Sales_Data</span>
+    </div>
+    <div class="card-grid">
+
+      <div class="vcard" style="grid-column: span 2;">
+        <div class="vcard-top"><span class="vname">주문일시 — 월별 매출 추이</span></div>
+        <div class="vflag">11월은 반달치 데이터(점선) — 트렌드 비교에서 제외 고려</div>
+        <svg viewBox="0 0 560 130" width="100%" height="120" preserveAspectRatio="xMidYMid meet" role="img" aria-label="월별 매출 추이, 9월 피크 이후 10월 하락">
+          <line x1="30" y1="104" x2="540" y2="104" stroke="var(--c-grid)" stroke-width="1"/>
+          <line x1="30" y1="74" x2="540" y2="74" stroke="var(--c-grid)" stroke-width="1"/>
+          <line x1="30" y1="44" x2="540" y2="44" stroke="var(--c-grid)" stroke-width="1"/>
+          <polyline fill="none" stroke="var(--c-green)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"
+            points="30,89.4 80,53.1 130,45.5 180,58.8 230,56.5 280,58.8 330,36.2 380,40.9 430,32.6 480,61.1"/>
+          <polyline fill="none" stroke="var(--c-amber)" stroke-width="2" stroke-dasharray="3 3" stroke-linecap="round"
+            points="480,61.1 520,97.3"/>
+          <circle cx="430" cy="32.6" r="4" fill="var(--c-green)"/>
+          <circle cx="480" cy="61.1" r="4" fill="var(--c-amber)"/>
+          <text x="430" y="24" font-size="10" fill="var(--c-green)" font-weight="700" text-anchor="middle">9월 8.2억</text>
+          <text x="480" y="112" font-size="9.5" fill="var(--c-amber)" font-weight="700" text-anchor="middle">10월 7.0억(-14.9%)</text>
+          <text x="30" y="120" font-size="9" fill="var(--text-muted)">1월</text>
+          <text x="520" y="120" font-size="9" fill="var(--text-muted)" text-anchor="end">10월</text>
+          <text x="540" y="120" font-size="9" fill="var(--c-amber)" text-anchor="end">11월(반달치)↘</text>
+        </svg>
+        <div class="vdesc">2025-01-11~11-16. 취소 제외 기준. 9월 정점 → 10월 급락.</div>
+      </div>
+
+      <div class="vcard">
+        <div class="vcard-top"><span class="vname">주문시간</span><span class="vtype discrete">범주형(명목형)</span></div>
+        <div class="vflag ok">보정 후: 점심(13시)·저녁(19~23시) 이중 피크 확인</div>
+        <div class="c-stack" title="오후 73.2% · 오전 26.8%">
+          <div class="s-a" style="width:73.2%"></div>
+          <div class="s-b" style="width:26.8%"></div>
+        </div>
+        <div class="c-legend"><span class="sw"><i class="a"></i>오후 <b>73.2%</b></span><span class="sw"><i class="b"></i>오전 <b>26.8%</b></span></div>
+        <div class="vdesc">"오후 12:60"처럼 분(分) 오기 1.61%(10,773건), 정각 롤오버 보정.</div>
+      </div>
+
+      <div class="vcard">
+        <div class="vcard-top"><span class="vname">배송 리드타임</span></div>
+        <div class="vflag ok">날짜 정합성 완벽</div>
+        <div class="c-pair">
+          <div class="bar-wrap"><div class="bar" style="height:36px;"><span class="bv">0.96일</span></div><span class="bl">주문→배송시작</span></div>
+          <div class="bar-wrap"><div class="bar amber" style="height:48px;"><span class="bv">1.28일</span></div><span class="bl">배송시작→완료</span></div>
+        </div>
+        <div class="vdesc">결측 4.59%는 취소건과 정확히 일치.</div>
+      </div>
+
+      <div class="vcard">
+        <div class="vcard-top"><span class="vname">주문취소여부</span><span class="vtype discrete">범주형(명목형)</span></div>
+        <div class="vflag ok">매출 변동과 무관</div>
+        <svg viewBox="0 0 220 50" width="100%" height="46" preserveAspectRatio="none" role="img" aria-label="월별 취소율, 4.49~4.70% 사이 안정">
+          <text x="0" y="11" font-size="8" fill="var(--text-muted)">4.70%</text>
+          <line x1="34" y1="8" x2="220" y2="8" stroke="var(--c-grid)" stroke-width="1"/>
+          <text x="0" y="41" font-size="8" fill="var(--text-muted)">4.49%</text>
+          <line x1="34" y1="38" x2="220" y2="38" stroke="var(--c-grid)" stroke-width="1"/>
+          <polyline fill="none" stroke="var(--c-green)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+            points="34,19.4 54.7,29.4 75.3,8 96,12.3 116.7,38 137.3,33.7 158,10.9 178.7,15.1 199.3,35.1 220,32.3"/>
+        </svg>
+        <div class="vstat">4.59%</div>
+        <div class="vdesc">월별 4.49~4.70%, 변동계수 1.76%로 매우 안정적.</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- 담당자 5 -->
+  <div class="person-section">
+    <div class="person-head">
+      <span class="person-num">05</span>
+      <span class="person-title">상품 속성</span>
+      <span class="person-table">Product_Data</span>
+    </div>
+    <div class="card-grid">
+
+      <div class="vcard">
+        <div class="vcard-top"><span class="vname">물품명</span><span class="vtype discrete">이산형</span></div>
+        <div class="vflag">고유 식별자 아님 — 상품 집계는 제품번호(SKU) 기준으로</div>
+        <div class="c-stack" title="단일 SKU 59.9% · 분화 SKU 40.1%">
+          <div class="s-a" style="width:59.9%"></div>
+          <div class="s-b" style="width:40.1%"></div>
+        </div>
+        <div class="c-legend"><span class="sw"><i class="a"></i>단일 SKU <b>1,528개</b></span><span class="sw"><i class="b"></i>분화 SKU <b>1,021개(40%)</b></span></div>
+        <div class="vdesc">전체 SKU 2,549개 중 1,021개(40%)가 사이즈·색상 등으로 분화된 옵션 상품. 이름이 같아도 옵션이 다르면 SKU는 따로 셈.</div>
+      </div>
+
+      <div class="vcard">
+        <div class="vcard-top"><span class="vname">물품대분류</span><span class="vtype discrete">범주형</span></div>
+        <div class="vflag">신선식품 전문몰 아닌 종합 라이프스타일 커머스</div>
+        <div class="c-rank">
+          <div class="row"><span class="lbl">식기/편백</span><div class="track"><div class="fill amber" style="width:100%"></div></div><span class="val">203</span></div>
+          <div class="row"><span class="lbl">과일</span><div class="track"><div class="fill" style="width:68.5%"></div></div><span class="val">139</span></div>
+          <div class="row"><span class="lbl">냉동수산</span><div class="track"><div class="fill" style="width:53.2%"></div></div><span class="val">108</span></div>
+          <div class="row"><span class="lbl">음료</span><div class="track"><div class="fill" style="width:52.2%"></div></div><span class="val">106</span></div>
+          <div class="row"><span class="lbl">생활용품</span><div class="track"><div class="fill amber" style="width:49.8%"></div></div><span class="val">101</span></div>
+        </div>
+        <div class="c-legend"><span class="sw"><i class="a"></i>식품</span><span class="sw"><i class="b"></i>비식품</span></div>
+        <div class="vdesc">59종 중 1위가 식품 아닌 식기/편백. Top15에 비식품 5종.</div>
+      </div>
+
+      <div class="vcard">
+        <div class="vcard-top"><span class="vname">물품중분류</span><span class="vtype discrete">범주형</span></div>
+        <div class="vflag">채소는 98개 상품을 67개로, 그릇류는 203개를 7개로 묶었음</div>
+        <div class="c-pair">
+          <div class="bar-wrap"><div class="bar" style="height:52px;"><span class="bv">67개</span></div><span class="bl">잎/줄기채소</span></div>
+          <div class="bar-wrap"><div class="bar amber" style="height:6px;"><span class="bv">7개</span></div><span class="bl">식기/편백</span></div>
+        </div>
+        <div class="vdesc">분류별 개수 편차가 심함.</div>
+      </div>
+
+      <div class="vcard">
+        <div class="vcard-top"><span class="vname">상품중량</span><span class="vtype mixed">혼합형</span></div>
+        <div class="vflag">값이 있는 2,330건 중 519건이 중량 아닌 옵션정보(색상·수량) — 사실상 '옵션' 컬럼</div>
+        <div class="c-rank">
+          <div class="row"><span class="lbl">식기/편백</span><div class="track"><div class="fill amber" style="width:100%"></div></div><span class="val">90건</span></div>
+          <div class="row"><span class="lbl">화장품</span><div class="track"><div class="fill amber" style="width:45.6%"></div></div><span class="val">41건</span></div>
+          <div class="row"><span class="lbl">중량(정육)</span><div class="track"><div class="fill amber" style="width:35.6%"></div></div><span class="val">32건</span></div>
+        </div>
+        <div class="vstat">결측 8.59%</div>
+        <div class="vdesc">결측 219건의 75%가 무게를 안 재는 상품(그릇·화장품)에 몰려 있음. 값도 "700g"과 "L/검정"이 섞여 있음.</div>
+      </div>
+
+    </div>
+  </div>
+
+  <footer class="page-footer">
+    <span>친환경 신선식품 커머스 · 빅데이터 프로젝트팀</span>
+    <span>담당자 1~5 개별 분석자료 통합 · 2026.08.20</span>
+  </footer>
+
+</div>
