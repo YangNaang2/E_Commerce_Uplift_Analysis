@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
 프로모션 추천 서비스 — Streamlit 프론트엔드
-'우리 서비스가 이커머스 회사(FRESH.DATA)에 분석 리포트를 제공한다'는 톤으로 문구를 쉽게 풀어씀.
+'우리가 이커머스데이터 사내 데이터마케팅팀'이라는 톤으로 문구를 쉽게 풀어씀.
 백엔드(FastAPI, backend/main.py)가 8000번 포트에 떠 있어야 함:
   cd dashboard/backend && uvicorn main:app --reload --port 8000
 실행: cd dashboard/frontend && streamlit run app.py
@@ -15,7 +15,7 @@ from plotly.subplots import make_subplots
 
 API = "http://127.0.0.1:8000"
 
-st.set_page_config(page_title="FRESH.DATA — 프로모션 추천 서비스", page_icon="🥑", layout="wide")
+st.set_page_config(page_title="이커머스데이터 — 프로모션 추천 서비스", page_icon="🥑", layout="wide")
 
 # ---- 팀 초안(dashboard.html)의 다크 + 민트/코랄/골드 팔레트를 이어받은 커스텀 스타일 ----
 st.markdown("""
@@ -81,7 +81,7 @@ except Exception as e:
     st.stop()
 
 st.title("🥑 프로모션 추천 서비스")
-st.caption("FRESH.DATA(친환경 신선식품 커머스)님의 주문 데이터를 분석해, 프로모션을 드리면 효과가 좋을 고객을 찾아드립니다.")
+st.caption("이커머스데이터(친환경 신선식품 커머스) 고객 주문 데이터를 분석해, 프로모션을 드리면 효과가 좋을 고객을 찾아드립니다.")
 
 # ================= KPI 카드 =================
 c1, c2, c3, c4 = st.columns(4)
@@ -115,7 +115,7 @@ with tab_intro:
 
     fig_stack = make_subplots(
         rows=2, cols=1, shared_xaxes=True, vertical_spacing=0.08,
-        subplot_titles=("FRESH.DATA 일평균 매출(원, 관측일 보정)", "국내 온라인 음식료품 카테고리 성장률(전년동월대비, %)"),
+        subplot_titles=("이커머스데이터 일평균 매출(원, 관측일 보정)", "국내 온라인 음식료품 카테고리 성장률(전년동월대비, %)"),
     )
     fig_stack.add_trace(go.Scatter(
         x=month_df["월"], y=month_df["일평균매출"], mode="lines+markers",
@@ -141,7 +141,7 @@ with tab_intro:
     )
     st.plotly_chart(fig_stack, use_container_width=True)
     st.caption(
-        "위: FRESH.DATA 일평균 매출(원본 자체에 10월 3일 등 결측일이 있어, 월합계 대신 관측일수로 나눈 "
+        "위: 이커머스데이터 일평균 매출(원본 자체에 10월 3일 등 결측일이 있어, 월합계 대신 관측일수로 나눈 "
         "일평균으로 비교). 아래: 국내 온라인 음식료품 카테고리 성장률(전년동월대비, 국가데이터처 "
         "온라인쇼핑동향 월별 보도자료). 두 그래프 모두 **9월에서 10월로 넘어가며 같은 시점에 꺾입니다**(빨간 구간). "
         "해외(미국)는 같은 달 온라인 소비가 전년대비 +8.2%로 여전히 성장세였습니다(Adobe Digital Economy Index)."
