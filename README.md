@@ -16,22 +16,16 @@ FRESH.DATA의 월매출은 9월(30일 환산 8.22억원)을 정점으로 10월�
 
 ## Uplift 모델링이란?
 
-한 사람에게 "프로모션을 줬을 때"와 "안 줬을 때" 각각 구매할지를 놓고 보면, 고객은 아래 4가지 유형으로 나뉩니다. 이 중 프로모션 예산을 써야 하는 사람은 **Persuadable** 뿐입니다.
+한 사람에게 "프로모션을 줬을 때(treated)"와 "안 줬을 때(not treated)" 각각 구매할지를 놓고 보면, 고객은 아래 4가지 유형으로 나뉩니다. 이 중 프로모션 예산을 써야 하는 사람은 **Persuadable**(초록) 뿐이고, 오히려 역효과가 나는 **Sleeping Dog**(빨강)은 반드시 제외해야 합니다.
 
-```mermaid
-quadrantChart
-    title 고객 4분면 — 프로모션을 줬을 때 vs 안 줬을 때 구매 여부
-    x-axis 안 줬을 때 구매확률 낮음 --> 안 줬을 때 구매확률 높음
-    y-axis 줬을 때 구매확률 낮음 --> 줬을 때 구매확률 높음
-    quadrant-1 Sure Thing — 예산 낭비
-    quadrant-2 Persuadable — 타겟 1순위
-    quadrant-3 Lost Cause — 효과 없음
-    quadrant-4 Sleeping Dog — 역효과, 절대 제외
-    "Sure Thing": [0.82, 0.85]
-    "Persuadable": [0.22, 0.75]
-    "Lost Cause": [0.15, 0.12]
-    "Sleeping Dog": [0.78, 0.18]
-```
+<img src="assets/uplift_quadrant.png" alt="Uplift 4분면 — Buy if treated x Buy if NOT treated 매트릭스" width="420">
+
+| 유형 | 처치 시 구매 | 미처치 시 구매 | 대응 |
+|---|---|---|---|
+| Persuadable | YES | NO | 타겟 1순위 — 프로모션이 실제로 구매를 만들어냄 |
+| Sure Thing | YES | YES | 프로모션 없어도 어차피 구매 — 예산 낭비 |
+| Lost Cause | NO | NO | 프로모션을 줘도 안 삼 — 효과 없음 |
+| Sleeping Dog | NO | YES | 프로모션이 오히려 구매를 막음 — 역효과, 절대 제외 |
 
 문제는 실제로는 한 사람에 대해 "줬을 때"와 "안 줬을 때"를 동시에 관측할 수 없다는 점입니다(반사실 문제). 그래서 구독자 그룹과 비구독자 그룹을 각각 독립적으로 모델링(T-learner)해 예측 확률의 차이를 Uplift 점수로 씁니다:
 
