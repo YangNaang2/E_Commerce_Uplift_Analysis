@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 """
-run14: 연관규칙 기반 장바구니 분석 [추가분석, H1~H4와 독립]
+run14: 연관규칙 기반 장바구니 분석 (H1~H4 Uplift 파이프라인과 독립)
 
-배경: 교수님/팀 피드백에서 "연관규칙 기반 마케팅"이 언급됨. 이 프로젝트는 basket 재집계
-(품목행->주문 단위, preprocess_pipeline.py Step2b와 동일한 (회원번호, 주문일시_dt) 키)까지는
-이미 했지만 "이 상품을 사면 저 상품도 산다"는 연관규칙 마이닝 자체는 없었음 -> 신규로 수행.
+배경: 이 프로젝트는 basket 재집계(품목행->주문 단위, preprocess_pipeline.py Step2b와 동일한
+(회원번호, 주문일시_dt) 키)까지는 이미 했지만 "이 상품을 사면 저 상품도 산다"는 연관규칙
+마이닝 자체는 없었음 -> 신규로 수행.
 
 물품명(SKU, 1,917종)이 아니라 물품대분류(59종) 단위로 분석함 -> SKU 단위는 조합이 너무
 희소해(주문당 평균 3.34개 품목) 유의미한 규칙이 거의 안 나오고, 대분류 단위가 "정육을 사면
@@ -15,7 +15,7 @@ from mlxtend.frequent_patterns import apriori, association_rules
 from mlxtend.preprocessing import TransactionEncoder
 
 BASE = "C:/Users/aidan/OneDrive/바탕 화면/종합실습/data/processed/"
-OUT = "C:/Users/aidan/AppData/Local/Temp/claude/C--Users-aidan-OneDrive-----------/526a44f2-eab0-428f-be6f-d07d153f63c4/scratchpad/"
+OUT = BASE
 
 df = pd.read_csv(
     BASE + "merged_master.csv", encoding="utf-8-sig",

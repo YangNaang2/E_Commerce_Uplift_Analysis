@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 """
-[Claude 재현본 — C 본인 코드 아님] C파트(H3 계절×구독) 개인별 Uplift 점수 재생성
-- 배경: Holdout 재설정(11/2->10/26, 8/24)으로 옛 uplift_scores_partC.csv가 낡음. C의 실제
-  재검증 코드는 못 받았지만, C가 `C파트_재전달_결과.md` Task2에서 서술한 절차(핵심변수
+C파트(H3 계절×구독) 개인별 Uplift 점수 재구성본
+- Holdout 기준일을 10/26으로 재설정하면서 기존 uplift_scores_partC.csv가 낡아 재산출이
+  필요해짐. C의 실제 재검증 코드 대신 `C파트_재전달_결과.md` Task2에 서술된 절차(핵심변수
   preperiod_제철구매비율을 뺀 나머지로 L1 자동축소 -> 선택된 변수+핵심변수로 무정규화 재적합)
-  를 그대로 재현함 — C 본인이 실제로 설명한 방법이라 세 재현본 중 가장 충실도가 높음.
+  를 그대로 재현함 — 원 저자가 실제로 기술한 방법이라 세 재구성본 중 가장 충실도가 높음.
 - 출력 포맷은 기존 uplift_scores_partC.csv와 동일(회원번호, preperiod_제철구매비율,
   treatment_h4, p_control/p_treated/uplift 각 _logit/_rf).
 """

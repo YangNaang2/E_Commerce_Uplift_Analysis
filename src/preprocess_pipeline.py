@@ -1,16 +1,16 @@
 # -*- coding: utf-8 -*-
 """
 전처리 파이프라인 v1
-- 8-Step 계획(CLAUDE.md) + A/B/C/D 통합 인사이트(전처리_통합_인사이트_ABCD.md) 반영
+- 8-Step 전처리 계획 + A/B/C/D 통합 인사이트(전처리_통합_인사이트_ABCD.md) 반영
 - 분석단위: 단일 스냅샷(회원당 1행) x Train/Holdout 2개
   Train  index_date = 2025-09-16, Y = 9/17~9/30 재구매여부(14일)
   Holdout index_date = 2025-10-26, Y = 10/27~11/9 재구매여부(14일)
-  (8/24 변경: 원래 11/2였으나, 원본 Sales_Data 자체에 11/10~14 5일 연속 결측이 있어
-   14일 라벨 윈도우 안에 결측이 절반 가까이 걸림 -> Y가 과소추정될 위험 발견(팀원 EDA로 확인).
-   원본에 결측이 없는 10/3·10/11~12·11/10~14를 모두 피하는 구간으로 재설정.)
+  (Holdout 기준일은 11/2가 아닌 10/26으로 설정 — 원본 Sales_Data 자체에 11/10~14 5일 연속
+   결측이 있어 14일 라벨 윈도우 안에 결측이 절반 가까이 걸리면 Y가 과소추정될 위험이 있음.
+   원본에 결측이 없는 10/3·10/11~12·11/10~14를 모두 피하는 구간으로 설정.)
 - 이번 버전 범위에 포함 O: 지역 정규화/region_tier, 계절(제철) 태깅, RFM, 가격구간,
   적립금 이력, 연령x성별 세그먼트, 구독여부 재분류(Treatment), Y(14일), 이상치 플래그,
-  상품중량 정규식 정제(8/25 추가 구현, 핵심 모델링 피처로는 미사용 - 데이터 정제 완결성 목적)
+  상품중량 정규식 정제(핵심 모델링 피처로는 미사용 - 데이터 정제 완결성 목적)
 - 이번 버전 범위에서 제외(TODO, 핵심 모델링에 필수 아님): 등록카드 3분류(run18에서 별도 구현),
   주문시간 "XX:60" 보정(run20에서 별도 구현)
 """
@@ -23,7 +23,7 @@ BASE = "C:/Users/aidan/OneDrive/바탕 화면/종합실습/data/processed/"
 RAW_PATH = BASE + "merged_master.csv"
 
 TRAIN_INDEX_DATE = pd.Timestamp("2025-09-16")
-HOLDOUT_INDEX_DATE = pd.Timestamp("2025-10-26")  # 8/24: 11/10~14 원본결측 회피 위해 11/2->10/26 변경
+HOLDOUT_INDEX_DATE = pd.Timestamp("2025-10-26")  # 11/10~14 원본결측 구간을 피하기 위해 11/2 대신 10/26 사용
 N_DAYS = 14
 DATA_MAX_DATE = pd.Timestamp("2025-11-16")
 
@@ -128,7 +128,7 @@ df["연휴전후구간"] = df["주문일시_dt"].map(to_holiday_period)
 print("[Step1c]", df["연휴전후구간"].value_counts().to_dict())
 
 # ---------------------------------------------------------------------------
-# Step 1d: 상품중량 정제 (8/25 구현 - 기존에 TODO로 미뤄뒀던 항목)
+# Step 1d: 상품중량 정제
 #   - 정규식으로 중량/용량(g·kg·ml·㎖·l)만 추출해 그램(g) 환산값으로 정규화(부피는 g=ml 근사)
 #   - 범위 표기("0.7~1kg")는 평균값으로 환산
 #   - 나머지 텍스트(용도·원산지·묶음정보·개수단위 등)는 옵션정보 컬럼으로 분리
@@ -328,9 +328,9 @@ def build_snapshot(index_date, label_start, label_end, price_bins=None):
         clf.fit(known[model_feats], known["구독여부"] == True)
         prob.loc[known.index] = clf.predict_proba(known[model_feats])[:, 1]
         prob.loc[unknown.index] = clf.predict_proba(unknown[model_feats])[:, 1]
-    snap["구독_추정확률"] = prob  # 참고용. unresolved 구간은 0.40~0.58 근처로 사실상 판별력 없음(팀 검토 완료, 8/23)
+    snap["구독_추정확률"] = prob  # 참고용. unresolved 구간은 0.40~0.58 근처로 사실상 판별력 없음
 
-    # 8/23 결정: 행동기반 강제분류(0.5 threshold) 대신 unresolved는 NaN으로 남기고
+    # 행동기반 강제분류(0.5 threshold) 대신 unresolved는 NaN으로 남기고
     # 메인 Uplift 분석 표본에서 제외한다. include_in_uplift_model로 필터링.
     snap["treatment_h4"] = np.select(
         [snap["treatment_source"] == "original_true", snap["treatment_source"] == "original_false"],

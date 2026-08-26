@@ -21,7 +21,7 @@ ho = pd.read_csv(BASE + "snapshot_holdout.csv", encoding="utf-8-sig")
 for d in (tr, ho):
     d["log_frequency"] = np.log1p(d["frequency"])
     d["log_monetary"] = np.log1p(d["monetary"])
-    d["log_recency"] = np.log1p(d["recency_days"])  # log_aov는 8/24 발견한 완전종속 문제로 제외
+    d["log_recency"] = np.log1p(d["recency_days"])  # log_aov는 log_monetary와 완전종속 관계라 제외
     d["결혼_결측표시"] = d["결혼"].fillna("결측")
 
     def risk_band(days):

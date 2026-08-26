@@ -1,9 +1,8 @@
 # -*- coding: utf-8 -*-
 """
-run18: 결제/적립수단별 구매행동 [추가분석, H1~H4와 독립]
+run18: 결제/적립수단별 구매행동 (H1~H4 Uplift 파이프라인과 독립)
 
-등록카드(25종 발급기관명)를 은행/카드사/간편결제/기타 4그룹으로 재분류(CLAUDE.md에서
-"이번 버전 범위 제외(TODO)"로 남겨뒀던 등록카드 3분류를 이번에 실제로 구현)한 뒤,
+등록카드(25종 발급기관명)를 은행/카드사/간편결제/기타 4그룹으로 재분류한 뒤,
 그룹별 AOV·구매빈도·취소율·구독여부 비율을 비교.
 """
 import numpy as np
@@ -11,7 +10,7 @@ import pandas as pd
 from scipy.stats import chi2_contingency, kruskal
 
 BASE = "C:/Users/aidan/OneDrive/바탕 화면/종합실습/data/processed/"
-OUT = "C:/Users/aidan/AppData/Local/Temp/claude/C--Users-aidan-OneDrive-----------/526a44f2-eab0-428f-be6f-d07d153f63c4/scratchpad/"
+OUT = BASE
 
 BANK = {"국민은행", "신한은행", "농협중앙회", "우리은행", "기업은행", "하나은행", "새마을금고",
         "부산은행", "SC제일은행", "광주은행", "씨티은행", "우체국", "대구은행", "신협중앙회",

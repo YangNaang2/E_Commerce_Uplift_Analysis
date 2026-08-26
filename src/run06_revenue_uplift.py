@@ -24,7 +24,7 @@ for d in (tr, ho):
     d["결혼_결측표시"] = d["결혼"].fillna("결측")
 
 NUM_FEATS = [
-    # log_aov 제외: monetary = frequency * aov 이므로 log_monetary = log_frequency + log_aov (완전 종속, 8/24 발견)
+    # log_aov 제외: monetary = frequency * aov 이므로 log_monetary = log_frequency + log_aov (완전 종속)
     "log_frequency", "log_monetary", "log_recency",
     "regularity_cv", "reward_usage_rate", "나이",
     "preperiod_제철구매비율", "abnormal_account_flag", "reward_ever_used",

@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 """
 run23: Double Machine Learning(EconML CausalForestDML) 기반 Uplift 재검증
-[추가분석, 사용자 질문 계기 — "S/T/X-learner 말고 causal inference/DML도 해야 하는 거 아니냐"에 답하며 실제로 돌려봄]
 
 우리 Treatment(구독여부)는 무작위 실험이 아니라 고객이 스스로 선택한 값이라(관측 데이터),
 "구독한 사람이 원래 재구매 성향이 높은 사람이라서 재구매율이 높게 나온 것 아니냐"는
@@ -29,7 +28,7 @@ from sklearn.ensemble import RandomForestClassifier, RandomForestRegressor
 from sklearn.preprocessing import OneHotEncoder, StandardScaler
 
 BASE = "C:/Users/aidan/OneDrive/바탕 화면/종합실습/data/processed/"
-OUT = "C:/Users/aidan/AppData/Local/Temp/claude/C--Users-aidan-OneDrive-----------/5946a835-80d1-494e-b196-bc797b5896fe/scratchpad/"
+OUT = BASE
 
 tr = pd.read_csv(BASE + "snapshot_train.csv", encoding="utf-8-sig")
 ho = pd.read_csv(BASE + "snapshot_holdout.csv", encoding="utf-8-sig")

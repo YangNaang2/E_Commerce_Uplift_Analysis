@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 """
-[Claude 재현본 — D 본인 코드 아님] D파트(H2 지역×배송) 개인별 Uplift 점수 재생성 (v2)
-- 배경: Holdout 재설정(11/2->10/26, 8/24)으로 옛 uplift_scores_partD.csv가 낡음. D의 실제
-  재검증 코드는 못 받아서 A와 동일 kitchen-sink 방법론으로 재현.
+D파트(H2 지역×배송) 개인별 Uplift 점수 재구성본 (v2)
+- Holdout 기준일을 10/26으로 재설정하면서 기존 uplift_scores_partD.csv가 낡아 재산출이
+  필요해짐. D의 실제 재검증 코드 대신 A와 동일한 kitchen-sink 방법론으로 재구성.
 - v1(is_dawn_delivery_zone 추가)은 그 값이 region_tier에 완전히 종속(1:1)된 파생값이라
   A와 로지스틱 결과가 사실상 동일(상관 1.000)하게 나오는 문제 발견 -> region_key(224종,
   구독자 1,626명 대비 카디널리티 과다)도 기각 -> C의 force-retain 2단계 방식(핵심변수

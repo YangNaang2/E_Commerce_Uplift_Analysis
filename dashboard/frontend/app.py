@@ -104,12 +104,12 @@ with tab_intro:
     month_df_full = pd.DataFrame(api_get("/api/trend/month")).sort_values("월")
     # 11월은 11/16까지만 집계된 반쪽 달이라 이 비교 그래프에서는 제외(하락이 계속되는 것처럼 오인 방지)
     month_df = month_df_full[month_df_full["월"] <= 10]
-    # 8/24: 원본 자체에 결측일(10월 3일)이 있어 월합계(총매출)로 비교하면 왜곡됨 -> 일평균매출(관측일 보정)로 비교
+    # 원본 자체에 결측일(10월 3일)이 있어 월합계(총매출)로 비교하면 왜곡됨 -> 일평균매출(관측일 보정)로 비교
     sep_rev = month_df.loc[month_df["월"] == 9, "일평균매출"]
     oct_rev = month_df.loc[month_df["월"] == 10, "일평균매출"]
     our_mom = float((oct_rev.values[0] / sep_rev.values[0] - 1) * 100) if len(sep_rev) and len(oct_rev) else None
 
-    # 국내 온라인 음식료품 카테고리 전년동월대비 성장률(%, 국가데이터처 온라인쇼핑동향 월별 보도자료 기준, 8/24 확보)
+    # 국내 온라인 음식료품 카테고리 전년동월대비 성장률(%, 국가데이터처 온라인쇼핑동향 월별 보도자료 기준)
     market_food = {1: 9.2, 2: 8.3, 3: 9.8, 4: 9.1, 5: 5.6, 6: 11.0, 7: 12.6, 8: 5.8, 9: 17.7, 10: 4.4}
     market_df = pd.DataFrame({"월": list(market_food.keys()), "증가율": list(market_food.values())}).sort_values("월")
 

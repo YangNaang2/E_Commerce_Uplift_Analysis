@@ -1,17 +1,17 @@
 # -*- coding: utf-8 -*-
 """
-run15: 주문취소 및 배송지연 분석 [추가분석, H1~H4와 독립]
+run15: 주문취소 및 배송지연 분석 (H1~H4 Uplift 파이프라인과 독립)
 
-배경: 교수님/팀 피드백에서 언급됨. 기존에는 주문취소여부·배송리드타임을 전처리 단계의
-데이터 정합성 체크용으로만 다뤘음(예: "배송리드타임 결측이 취소건과 정확히 일치") ->
-①세그먼트별 취소율·배송지연 차이 ②취소 경험이 향후 재구매에 영향을 주는지를 신규로 확인.
+배경: 기존에는 주문취소여부·배송리드타임을 전처리 단계의 데이터 정합성 체크용으로만
+다뤘음(예: "배송리드타임 결측이 취소건과 정확히 일치") -> ①세그먼트별 취소율·배송지연
+차이 ②취소 경험이 향후 재구매에 영향을 주는지를 신규로 확인.
 """
 import numpy as np
 import pandas as pd
 from scipy.stats import chi2_contingency, mannwhitneyu
 
 BASE = "C:/Users/aidan/OneDrive/바탕 화면/종합실습/data/processed/"
-OUT = "C:/Users/aidan/AppData/Local/Temp/claude/C--Users-aidan-OneDrive-----------/526a44f2-eab0-428f-be6f-d07d153f63c4/scratchpad/"
+OUT = BASE
 TRAIN_INDEX_DATE = pd.Timestamp("2025-09-16")
 
 df = pd.read_csv(

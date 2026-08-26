@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 """
-[Claude 재현본 — B 본인 코드 아님] B파트(H4 연령×성별) 개인별 Uplift 점수 재생성
-- 배경: Holdout을 11/2->10/26으로 재설정(8/24)해서 B의 기존 uplift_scores_partB_*.csv가
-  옛 홀드아웃 기준이 됨. B가 실제로 만든 개인별 스코어링 코드는 받은 적이 없어서(원본
-  파트B_H4_모델링_분석.ipynb는 가설검증용 GLM 회귀만 있고 L1/RF 스코어링 코드는 없음),
-  A(run01b/run08b)와 동일한 kitchen-sink 방법론을 그대로 적용해 재현함.
+B파트(H4 연령×성별) 개인별 Uplift 점수 재구성본
+- Holdout 기준일을 10/26으로 재설정하면서 B의 기존 uplift_scores_partB_*.csv가 옛 홀드아웃
+  기준이 되어 재산출이 필요해짐. 원본 파트B_H4_모델링_분석.ipynb에는 가설검증용 GLM 회귀만
+  있고 개인별 L1/RF 스코어링 코드는 없어, A(run01b/run08b)와 동일한 kitchen-sink 방법론을
+  적용해 재구성함(B 본인이 작성한 코드가 아니라 동일 방법론으로 재현한 버전).
 - B의 시그니처: age_band_h4/gender_h4를 따로 두지 않고 age_gender_segment(결합 세그먼트)를
   범주형 피처로 사용 -> A와 피처 인코딩 자체가 달라져서 완전히 동일한 결과가 나오지 않음.
 - 출력 포맷은 B가 이전에 보낸 CSV와 동일(회원번호, age_gender_segment, treatment_h4,

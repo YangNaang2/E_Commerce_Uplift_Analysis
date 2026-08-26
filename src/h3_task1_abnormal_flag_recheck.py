@@ -1,10 +1,9 @@
 # -*- coding: utf-8 -*-
 """
-H3 Task 1 재검증 (원래 C에게 요청했던 작업, 사용자가 직접 수행 — 8/24)
-- C파트_재전달_프롬프트.md Task 1: 지난 세션엔 merged_master_enriched.csv에서 회원별 구매행 빈도
-  상위 1%(임계 479건)로 abnormal_account_flag를 "프록시" 계산했었음. snapshot_train.csv의 "공식"
-  abnormal_account_flag로 교체해서, H3 핵심 회귀(구독여부×제철상품구매여부 월별 교호항, 매출)
-  결론이 달라지는지 재확인.
+H3 Task 1 재검증 — 이상거래계정 플래그 교체 후 회귀 결론 재확인
+- 기존에는 merged_master_enriched.csv에서 회원별 구매빈도 상위 1%(임계 479건)로
+  abnormal_account_flag를 프록시 계산했음. snapshot_train.csv의 공식 abnormal_account_flag로
+  교체해서, H3 핵심 회귀(구독여부×제철상품구매여부 월별 교호항, 매출) 결론이 달라지는지 재확인.
 - 원 회귀식(H3_명절_모델링검증.md 2절): log(구매금액) ~ 구독여부*제철상품구매여부 + 주말여부 + region_tier
   여기에 abnormal_account_flag(공식값)를 통제변수로 추가해 월별로 재적합.
 """

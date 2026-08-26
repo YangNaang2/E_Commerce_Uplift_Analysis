@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-run22: X-learner 구현 [추가분석, 사용자 질문 계기 — "S/T/X 중 어느 걸 썼냐"에 답하다가
-X-learner는 검토조차 안 됐다는 걸 발견 -> 실제로 돌려서 T-learner(run08b)와 비교해봄]
+run22: X-learner 구현 — T-learner(run08b)와 다른 메타러너 구조로 재검증
 
 X-learner (Kunzel et al. 2019) 4단계:
   1) 처치군(구독자)/대조군(비구독자) 각각의 결과(Y) 예측모델 mu1, mu0 학습 (T-learner와 동일한 stage)
@@ -24,7 +23,7 @@ from sklearn.model_selection import GridSearchCV, StratifiedKFold
 from sklearn.preprocessing import OneHotEncoder, StandardScaler
 
 BASE = "C:/Users/aidan/OneDrive/바탕 화면/종합실습/data/processed/"
-OUT = "C:/Users/aidan/AppData/Local/Temp/claude/C--Users-aidan-OneDrive-----------/526a44f2-eab0-428f-be6f-d07d153f63c4/scratchpad/"
+OUT = BASE
 
 tr = pd.read_csv(BASE + "snapshot_train.csv", encoding="utf-8-sig")
 ho = pd.read_csv(BASE + "snapshot_holdout.csv", encoding="utf-8-sig")

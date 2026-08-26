@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-run17: 코호트 리텐션 분석 [추가분석, H1~H4와 독립]
+run17: 코호트 리텐션 분석 (H1~H4 Uplift 파이프라인과 독립)
 
 회원가입일이 원본에 없어서, "첫 구매월"을 가입 프록시로 삼아 코호트를 구성함.
 각 코호트가 이후 몇 개월째까지 재구매(비취소 주문)를 이어가는지 리텐션율로 추적.
@@ -9,7 +9,7 @@ import numpy as np
 import pandas as pd
 
 BASE = "C:/Users/aidan/OneDrive/바탕 화면/종합실습/data/processed/"
-OUT = "C:/Users/aidan/AppData/Local/Temp/claude/C--Users-aidan-OneDrive-----------/526a44f2-eab0-428f-be6f-d07d153f63c4/scratchpad/"
+OUT = BASE
 
 df = pd.read_csv(BASE + "merged_master.csv", encoding="utf-8-sig",
                   usecols=["회원번호", "주문일시", "주문취소여부"])
@@ -29,10 +29,10 @@ active = df.drop_duplicates(["회원번호", "order_month"])
 retention = active.groupby(["cohort_month", "month_offset"])["회원번호"].nunique().unstack(fill_value=0)
 retention = retention.loc[retention.index.astype(str) < "2025-11"]
 
-# 버그 수정(8/25): 코호트 "시작월"이 11월인 경우만 빼는 걸로는 부족함 -> 예를 들어 10월 코호트의
+# 코호트 "시작월"이 11월인 경우만 빼는 것으로는 부족하다 -> 예를 들어 10월 코호트의
 # offset=1(11월 관측)처럼, 시작월은 11월이 아니어도 "관측 대상 월"이 11월(반쪽달)인 셀은
-# 전부 분자가 과소집계되어 리텐션이 실제보다 낮게 나옴. 코호트월+offset=관측월이 11월인 셀은
-# 전부 NaN 처리(사용자 지적으로 발견 - 10월 코호트 1개월후 재구매율이 유독 낮았던 원인이었음).
+# 전부 분자가 과소집계되어 리텐션이 실제보다 낮게 나온다. 코호트월+offset=관측월이 11월인
+# 셀은 전부 NaN 처리한다(10월 코호트의 1개월후 재구매율이 유독 낮게 나왔던 원인).
 observed_month = pd.PeriodIndex(retention.index, freq="M").to_series(index=retention.index)
 for offset_col in retention.columns:
     is_nov = (observed_month + offset_col).astype(str) == "2025-11"

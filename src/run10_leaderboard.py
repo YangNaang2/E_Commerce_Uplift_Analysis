@@ -2,11 +2,12 @@
 """
 run10: 리더보드 — 지금까지 나온 모든 run의 결과를 CSV에서 다시 계산해 한 표로 정리
 (A 파트가 만든 run01/01b/06/07/08b CSV를 원자료로 재검증. B/C/D 결과는 각자 리포트 수치를 그대로 인용)
-8/24: run08(미튜닝) -> run08b(GridSearchCV 튜닝판)로 교체 + run09 백테스팅 요약 섹션 추가
-8/24(2차): run09(4파트 백테스팅)의 B/C/D가 Claude 재현본이라 만장일치 인원이 부풀려지는 문제가
-  확인되어, **최종 타겟팅(run11)의 근거는 A 본인의 실제 두 모델(run01b∩run08b) 이중검증으로 교체**.
-  이 파일의 run09 요약 섹션은 "참고용 강건성 체크"로 라벨만 바꾸고 계산 로직은 그대로 유지(정성적
-  패턴 확인용, 발표에서 근거로 쓰는 숫자는 아래 "A 본인 이중검증" 섹션 것을 사용할 것).
+run08(미튜닝) 대신 run08b(GridSearchCV 튜닝판)를 대표값으로 사용하고, run09 백테스팅 요약
+섹션을 추가함. run09(4파트 백테스팅)의 B/C/D는 원본 코드가 아닌 재구성본이라 만장일치 인원이
+부풀려지는 문제가 있어, **최종 타겟팅(run11)의 근거는 A 본인의 실제 두 모델(run01b∩run08b)
+이중검증으로 사용**한다. 이 파일의 run09 요약 섹션은 "참고용 강건성 체크"로 라벨만 바꾸고
+계산 로직은 그대로 유지(정성적 패턴 확인용, 발표에서 근거로 쓰는 숫자는 아래 "A 본인 이중검증"
+섹션 것을 사용할 것).
 """
 import numpy as np
 import pandas as pd
@@ -22,7 +23,7 @@ def boot_ci(vals, n=2000):
 
 rows = []
 
-# run01(수동피처 버전)은 run01b로 대체된 뒤 8/24 파일정리 때 삭제됨 -- 아래 run01b부터 시작
+# run01(수동피처 버전)은 run01b로 대체된 뒤 삭제됨 -- 아래 run01b부터 시작
 
 # run01b
 df = pd.read_csv(BASE + "run01b_uplift_scores_holdout.csv", encoding="utf-8-sig")
@@ -75,7 +76,7 @@ print(f"타겟 후보 {len(dv):,}명 중 두 모델 동시 상위20%: {len(dv_bo
       f"(무작위 기대치 {dv_expected:.0f}명 대비 {len(dv_both)/dv_expected:.1f}배)")
 print("-> run11 최종 타겟팅 리스트(Tier1/2/3)의 근거. 캐비엇 없이 인용 가능한 실측 수치")
 
-# ================= run09 백테스팅 요약 (별도 CSV, B/C/D=Claude 재현본 - 참고용 강건성 체크) =================
+# ================= run09 백테스팅 요약 (별도 CSV, B/C/D=재구성본 - 참고용 강건성 체크) =================
 corr = pd.read_csv(BASE + "run09_spearman_correlation.csv", index_col=0, encoding="utf-8-sig")
 jac = pd.read_csv(BASE + "run09_top20pct_jaccard.csv", index_col=0, encoding="utf-8-sig")
 
@@ -91,7 +92,7 @@ merged = pd.read_csv(BASE + "run09_backtesting_merged_scores.csv", encoding="utf
 target = merged[merged["treatment_h4"] == 0]
 target_n = len(target)
 
-# 만장일치 인원수는 하드코딩하지 않고 매번 top20%/교집합을 다시 계산(8/24, 이전엔 454/161이 문자열로 박혀있던 버그 수정)
+# 만장일치 인원수는 하드코딩하지 않고 매번 top20%/교집합을 다시 계산
 TOP_PCT = 0.20
 n_top = int(target_n * TOP_PCT)
 rf_top = [set(target.nlargest(n_top, c)["회원번호"]) for c in rf_cols]
@@ -101,13 +102,13 @@ logit_consensus_n = len(set.intersection(*logit_top))
 expected_random = target_n * (TOP_PCT ** 4)
 
 bt_rows = [
-    ["같은 파트 로지스틱↔RF 상관(평균)", f"{np.mean(list(within_part_corr.values())):.3f}", "⚠️B/C/D=Claude재현본. A/B/C/D 개별: " + ", ".join(f"{p}={v:.3f}" for p, v in within_part_corr.items())],
-    ["RF 계열 파트간 상관(평균)", f"{rf_cross_avg:.3f}", "⚠️B/C/D=Claude재현본. A_rf/B_rf/C_rf/D_rf 6쌍 평균"],
-    ["[참고용,과대추정] 4파트 만장일치 상위20% (RF 계열)", f"{rf_consensus_n}명", f"⚠️B/C/D=Claude재현본이라 부풀려짐. 무작위 기대치 대비 {rf_consensus_n/expected_random:.1f}배" if expected_random else "-"],
-    ["[참고용,과대추정] 4파트 만장일치 상위20% (로지스틱 계열)", f"{logit_consensus_n}명", f"⚠️B/C/D=Claude재현본이라 부풀려짐. 무작위 기대치 대비 {logit_consensus_n/expected_random:.1f}배" if expected_random else "-"],
+    ["같은 파트 로지스틱↔RF 상관(평균)", f"{np.mean(list(within_part_corr.values())):.3f}", "⚠️B/C/D=재구성본. A/B/C/D 개별: " + ", ".join(f"{p}={v:.3f}" for p, v in within_part_corr.items())],
+    ["RF 계열 파트간 상관(평균)", f"{rf_cross_avg:.3f}", "⚠️B/C/D=재구성본. A_rf/B_rf/C_rf/D_rf 6쌍 평균"],
+    ["[참고용,과대추정] 4파트 만장일치 상위20% (RF 계열)", f"{rf_consensus_n}명", f"⚠️B/C/D=재구성본이라 부풀려짐. 무작위 기대치 대비 {rf_consensus_n/expected_random:.1f}배" if expected_random else "-"],
+    ["[참고용,과대추정] 4파트 만장일치 상위20% (로지스틱 계열)", f"{logit_consensus_n}명", f"⚠️B/C/D=재구성본이라 부풀려짐. 무작위 기대치 대비 {logit_consensus_n/expected_random:.1f}배" if expected_random else "-"],
 ]
 bt_df = pd.DataFrame(bt_rows, columns=["지표", "값", "비고"])
-print("\n=== run09 백테스팅 요약 (참고용 강건성 체크 — B/C/D는 Claude 재현본, 발표 근거로 쓰지 말 것) ===")
+print("\n=== run09 백테스팅 요약 (참고용 강건성 체크 — B/C/D는 재구성본, 발표 근거로 쓰지 말 것) ===")
 print(bt_df.to_string(index=False))
 bt_df.to_csv(BASE + "run10_run09_backtesting_summary.csv", index=False, encoding="utf-8-sig")
 print("\n저장 완료: run10_run09_backtesting_summary.csv")

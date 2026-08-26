@@ -2,8 +2,8 @@
 """
 run08b: Uplift Forest 재튜닝판 — run08(수동 하이퍼파라미터 고정)을 run06/run07과 동일하게
 GridSearchCV로 정식 튜닝. run01b(로지스틱)를 "대표모델"로 정할 때 비교 대상이던 run08이
-사실 튜닝이 안 된 상태였다는 걸 8/24 뒤늦게 인지해서 재실행(사용자 확인, 백테스팅 착수 전).
-- 피처셋은 run06/run07과 동일(log_aov 제외 — log_monetary=log_frequency+log_aov 완전종속 문제, 8/24 발견)
+튜닝되지 않은 상태였기 때문에, 백테스팅 착수 전 정식 튜닝판으로 재실행.
+- 피처셋은 run06/run07과 동일(log_aov 제외 — log_monetary=log_frequency+log_aov 완전종속 문제)
 - TwoModels 래퍼 대신 run07과 같은 방식으로 구독자/비구독자 RF를 직접 GridSearchCV로 튜닝
 """
 import numpy as np
