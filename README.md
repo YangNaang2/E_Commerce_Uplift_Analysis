@@ -35,7 +35,7 @@ Uplift(고객 X) = P(구매 | X, 구독시켰다면) − P(구매 | X, 구독 �
 
 - **Treatment**: 멤버십(정기배송) 구독 여부
 - **Y**: 기준일 이후 14일 내 재구매 여부
-- **메타러너**: T-learner(구독자/비구독자 각각 독립 모델 학습 후 예측값 차이로 Uplift 계산)를 메인으로 채택하고, X-learner로 교차검증. S-learner는 Treatment 신호가 약할 때 Sure Thing만 찾아내는 함정(Sure Thing 함정)이 있어 채택하지 않음
+- **메타러너**: T-learner(구독자/비구독자 각각 독립 모델 학습 후 예측값 차이로 Uplift 계산)를 메인으로 채택하고, X-learner·DML(Double ML, EconML `CausalForestDML`)로 교차검증. S-learner는 Treatment 신호가 약할 때 Sure Thing만 찾아내는 함정(Sure Thing 함정)이 있어 채택하지 않음
 - **대표 모델 2종**: 로지스틱회귀(L1 정규화, 해석 쉬운 선형 모델)와 RandomForest(비선형 상호작용을 잡는 앙상블 모델) — 두 모델이 동시에 지목한 고객만 신뢰하는 이중검증 방식으로 최종 타겟팅 리스트 산출
 - **4대 가설(H1~H4)**: 가격 민감도(구매금액 구간), 지역×배송조건, 계절성 상품, 연령×성별 세그먼트별로 프로모션 반응 차이를 검증
 
@@ -57,7 +57,7 @@ dashboard/   FastAPI + Streamlit 인터랙티브 대시보드
 1. `merge_and_enrich.py` — 원본 3테이블 병합 + 외부변수(계절·금리·소비자심리지수 등) 결합
 2. `preprocess_pipeline.py` — 정제·파생변수(RFM, 가격구간, Y 정의 등)·Train/Holdout 시간 분할
 3. `run01b_kitchen_sink_l1.py`, `run08b_uplift_forest_gridsearch.py` — 대표 T-learner 2종(로지스틱 L1 / RandomForest, GridSearchCV 튜닝)
-4. `run22_xlearner.py` — X-learner 교차검증
+4. `run22_xlearner.py`, `run23_dml_causalforest.py` — X-learner·DML(CausalForestDML) 교차검증
 5. `run06`~`run19` — 매출/이탈/RFM/코호트/연관규칙 등 보조 분석
 6. `run09_backtesting_persuadable.py`, `run10_leaderboard.py`, `run11_final_targeting_list.py` — 팀 4인 결과 백테스팅 + 최종 타겟팅 리스트 산출
 
@@ -83,6 +83,7 @@ streamlit run dashboard/frontend/app.py # http://localhost:8501
 
 - 로지스틱·RandomForest 두 모델이 각각 독립적으로 계산했는데도 둘 다 Persuadable로 지목한 고객 수는 무작위로 겹쳤을 때 기대되는 수보다 훨씬 많았습니다(팀 4명의 모델을 모두 합친 만장일치 그룹은 무작위 기대치의 12~34배). 계산 방식을 T-learner에서 X-learner로 바꿔도 고객 순위가 크게 달라지지 않아(순위상관 0.80), 특정 방법론에서만 우연히 나온 결과가 아님을 확인했습니다.
 - "재구매 확률" 기준으로 계산한 Uplift는 양수였지만, "매출액" 기준으로 계산하면 고가 상품 구매군에서는 오히려 음수가 나왔습니다 — 구독을 유도하면 재구매 횟수는 늘어도 건당 결제 금액은 줄어들 수 있다는 뜻입니다. 그래서 최종 타겟팅 리스트에는 "매출 리스크 등급(Tier)"을 함께 표시해, 재구매만 보고 타겟팅했을 때 매출이 줄어들 위험을 미리 걸러낼 수 있게 했습니다.
+- DML(Double ML, EconML `CausalForestDML`)로도 재검증했는데, 개인별 타겟팅 순위는 부분적으로 재현됐지만(상위 20% 겹침 무작위 대비 1.9배) 평균효과의 95% 신뢰구간은 [-4.37, 6.10]%p로 0을 포함했습니다 — 아래 "한계" 항목 참고.
 
 ### 대표 모델 2종 진단
 
@@ -103,6 +104,10 @@ T-learner를 구성하는 두 모델 각각의 하이퍼파라미터 튜닝·회
 <td colspan="2"><img src="assets/04_이상계정_프로파일.png" alt="이상거래 계정 vs 정상계정 프로파일 비교" width="780"><br><sub>이상거래 의심 계정은 평균 주문건수가 정상계정의 약 10배 — 전처리 단계에서 별도 플래그로 분리</sub></td>
 </tr>
 </table>
+
+## 한계
+
+**Treatment(구독여부)가 무작위 실험이 아니라 고객이 스스로 선택한 값**이라는 점은 이 분석의 근본적인 한계입니다. "구독한 사람이 원래 재구매 성향이 높은 사람이라서 효과가 커 보이는 것 아니냐"는 selection bias 우려를 확인하기 위해 Double ML(EconML `CausalForestDML`)로 재검증했습니다. T-learner·X-learner가 쓴 부트스트랩 신뢰구간(둘 다 0을 벗어나 유의)과 달리, 처치모델(성향점수)의 불확실성까지 명시적으로 반영하는 DML의 95% 신뢰구간은 **[-4.37, 6.10]%p로 0을 포함**했습니다. 즉 "구독이 평균적으로 재구매를 유의하게 늘린다"는 주장은 확신을 낮춰야 합니다. 다만 개인별 타겟팅 순위(누가 Persuadable인가)는 T/X-learner와 부분적으로 겹치고(상위 20% 겹침 무작위 대비 1.9배, 세 메타러너 모두의 만장일치는 7.3배), 최종 타겟팅 전략도 "평균 효과"가 아니라 "개인별 순위" 기반이라 이 결론에 크게 의존하지는 않습니다. 자세한 수치는 [`docs/리더보드_run10.md`](docs/리더보드_run10.md) 5-2절을 참고하세요.
 
 ## 참고 문헌
 
