@@ -113,3 +113,4 @@ T-learner를 구성하는 두 모델 각각의 하이퍼파라미터 튜닝·회
 
 - 김주현, 문현실 (2025). 「광고 효율성 제고를 위한 Uplift 모델 기반 모바일 광고 타겟팅 방법」. 한국경영과학회지, 제50권 제1호. [https://doi.org/10.7737/JKORMS.2025.50.1.049](https://doi.org/10.7737/JKORMS.2025.50.1.049)
 - 장채연 (2026). 「저차 상호작용 및 네트워크 직교성 제약을 통한 Uplift Modeling 성능 개선 연구」(석사학위논문). 연세대학교 대학원 디지털애널리틱스 융합협동과정.
+- 박대한 (2024.10.10). 「Uplift Modeling을 통한 마케팅 비용 최적화 (with Multiple Treatments)」. 네이버페이 기술블로그(Npay Dev Blog). [https://blog.naver.com/naverfinancial/223613675333](https://blog.naver.com/naverfinancial/223613675333) — 저희와 동일하게 Double ML(EconML)로 Uplift/CATE를 추정한 실무 적용 사례
