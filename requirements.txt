@@ -1,0 +1,11 @@
+# 분석·모델링 파이프라인(src/) 실행용. 대시보드는 dashboard/requirements.txt 참고.
+# 개발·검증 환경: Python 3.13.3 / Windows 11
+pandas>=2.0
+numpy>=1.26
+scikit-learn>=1.4
+scipy>=1.11
+matplotlib>=3.8
+statsmodels>=0.14      # 교호항 회귀(H2–H4), 대응표본 t검정
+econml>=0.15           # run23 CausalForestDML (Double ML)
+scikit-uplift>=0.5     # 초기 T-learner 프로토타입(run01/run08)
+mlxtend>=0.23          # run14 연관규칙(Apriori)
