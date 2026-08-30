@@ -18,9 +18,6 @@
 ### 📊 최종 발표 자료
 
 **▶︎ [B1조_빅데이터_이커머스_최종발표.pdf](presentation/B1조_빅데이터_이커머스_최종발표.pdf)** (19장)
-슬라이드 낱장 이미지는 [`presentation/slides/`](presentation/slides)에서 바로 볼 수 있습니다.
-
-<img src="presentation/slides/slide_01.png" alt="발표 표지 — 고객별 마케팅 효과 분석을 통한 이커머스 매출 향상, UpLift 모델링" width="720">
 
 ---
 
@@ -43,8 +40,6 @@
 
 ## 01. 추진배경
 
-<img src="presentation/slides/slide_03.png" alt="추진배경 슬라이드 — 신선식품 수요 증가, 멤버십 경쟁 심화, 동종업계 대비 매출 증감률 비교" width="760">
-
 친환경 신선식품 이커머스 기업(가명: *이커머스데이터*)의 사내 데이터마케팅팀 관점에서 착수한 프로젝트입니다.
 
 | 관점 | 관측 |
@@ -58,8 +53,6 @@
 ---
 
 ## 02. 데이터 정제
-
-<img src="presentation/slides/slide_04.png" alt="데이터 수집 슬라이드 — 판매/고객/상품 데이터와 외부 데이터 병합" width="760">
 
 ### 수집 & 병합
 
@@ -100,13 +93,9 @@
 
 ### 고객 정보 — 상위 1%는 이상치가 아니라 기업고객
 
-<img src="presentation/slides/slide_06.png" alt="구매 규모 비교와 연령별·성별 구매 패턴" width="760">
-
 구매빈도 상위 1% 계정은 평균 주문건수·총구매액이 정상 계정을 크게 상회합니다. 통계적으로는 이상치지만, 프로파일을 보면 **기업고객으로 추정**돼 **삭제하지 않고 별도 카테고리로 플래그** 처리했습니다. 매출은 **30·40대 여성**에 집중돼 있어, 주요 고객층 맞춤형 프로모션의 근거가 됩니다.
 
 ### 구독자 — 미구독 67%, 그리고 구독자 안의 이탈 신호
-
-<img src="presentation/slides/slide_07.png" alt="구독 여부 분포와 이탈위험 구간 기준" width="760">
 
 | 기준 | 값 | 의미 |
 |---|---|---|
@@ -118,8 +107,6 @@
 
 ### 구매 패턴 — 취소 후 복귀는 7일 안에 결정된다
 
-<img src="presentation/slides/slide_08.png" alt="주문 취소 후 재구매율과 취소 건수 분석" width="760">
-
 주문 취소 고객의 이후 행동은 **7일 이내 재구매 51% / 7일 이후 재구매 11% / 재구매 안 함 38%** 로 갈립니다. 돌아오는 고객의 대부분이 **첫 7일 안에** 돌아온다는 뜻이므로, 대응 타이밍이 곧 성과입니다.
 
 - **30세 미만 여성** — 취소 직후 리마인드 알림
@@ -127,14 +114,10 @@
 
 ### 구매 패턴 — 언제 보낼 것인가
 
-<img src="presentation/slides/slide_09.png" alt="요일별·시간대별 주문건수" width="760">
-
 - 매주 **금요일** 주문량 피크가 반복 → 하루 앞선 **목요일**에 프로모션 발송
 - **오전 11–12시** 점심 피크 직전에 리마인드 알림 배치
 
 ### 상품 — 반복구매 기반을 확보할 자사 브랜드 후보
-
-<img src="presentation/slides/slide_10.png" alt="연령대별 매출과 30·40대 매출 기여 TOP5 품목" width="760">
 
 연령대별 매출은 30대 24.98억 · 40대 23.56억 · 50대 12.30억 · 60대+ 8.39억 · 30세 미만 5.86억 원입니다. 30·40대 매출 기여 TOP5는 **논지엠오유정란 2.06억**, 멥쌀 1.54억, 추출/농축액 1.53억, 돼지 1.22억, 한우 1.17억 원.
 
@@ -143,8 +126,6 @@
 ---
 
 ## 04. RFM 고객 분류와 그 한계
-
-<img src="presentation/slides/slide_11.png" alt="RFM 555 고객 세그먼트 — 인원 3등분 대비 매출 83% 집중" width="760">
 
 R(최근성)·F(빈도)·M(구매금액) 점수를 합산(3~15점)한 뒤 **인원 기준으로 정확히 3등분**했습니다.
 
@@ -165,8 +146,6 @@ R(최근성)·F(빈도)·M(구매금액) 점수를 합산(3~15점)한 뒤 **인�
 ## 05. UpLift Modeling
 
 ### 무엇을 재는 기법인가
-
-<img src="presentation/slides/slide_12.png" alt="Uplift 4분면 — 구독하면 구매할까 x 비구독이었어도 구매했을까" width="760">
 
 ```
 UpLift(X) = A(X) − B(X)
@@ -189,16 +168,12 @@ UpLift(X) = A(X) − B(X)
 
 ### 비즈니스 케이스 스터디 — 실제로 쓰이는 기법인가
 
-<img src="presentation/slides/slide_13.png" alt="네이버페이와 Wayfair의 Uplift Modeling 적용 사례" width="760">
-
 | | 사례 |
 |---|---|
 | **CASE 1** | **네이버페이** 인텔리전스서비스팀이 마케팅 비용 최적화 문제를 Uplift Modeling으로 정의하고 실제 프로모션 타겟팅 모델에 적용 — 박대한(2024.10), 네이버페이 기술블로그 |
 | **CASE 2** | **Wayfair** 가 인과추론·Uplift 기반 시뮬레이션으로 **연간 약 8천만~1억 달러**의 추가 매출 잠재효과를 추정 — Wayfair Tech Blog |
 
 ### 모델 구조
-
-<img src="presentation/slides/slide_14.png" alt="T-learner 구조 — 구독자/비구독자 arm별 모델 학습 후 예측차" width="760">
 
 구독자(T=1) **Train 1,626명** / 비구독자(T=0) **Train 7,895명** 으로 **arm별 독립 모델**을 학습한 뒤, 두 예측의 차이를 **비구독자 8,276명**에게 계산했습니다.
 
@@ -212,8 +187,6 @@ UpLift(X) = A(X) − B(X)
 ---
 
 ## 06. 최종 타겟팅 리스트 — Tier 1–3
-
-<img src="presentation/slides/slide_15.png" alt="로지스틱 상위 20%와 RandomForest 상위 20%의 교집합 513명, Tier1/2/3 분류" width="760">
 
 **모델 클래스가 서로 다른 두 모델이 동시에 상위 20%로 지목한 고객(이중검증) = 513명.** 여기에 매출 리스크 필터를 교차해 3단계로 나눴습니다.
 
@@ -255,8 +228,6 @@ Tier2의 95명은 재구매 확률만 보면 Tier1과 똑같이 매력적이지�
 
 ## 07. 인사이트 & 액션 플랜
 
-<img src="presentation/slides/slide_16.png" alt="대상별 액션 플랜 표와 단기·중기·상시 로드맵" width="760">
-
 | 대상 | 규모 | 액션 | 타이밍 | 근거 |
 |---|---:|---|---|---|
 | 구독자 이탈위험 | 478명 | 이탈 방지 리텐션 캠페인 | 즉시 | 90일 이상 미구매 · 구독자의 27.9% |
@@ -278,7 +249,7 @@ Tier2의 95명은 재구매 확률만 보면 Tier1과 똑같이 매력적이지�
 
 ## 08. 시연 — 대시보드
 
-<img src="presentation/slides/slide_17.png" alt="구독자 이탈 관리 화면과 프로모션 효과 시뮬레이터 화면" width="760">
+<img src="assets/dashboard_demo.png" alt="구독자 이탈 관리 화면과 프로모션 효과 시뮬레이터 화면" width="760">
 
 FastAPI + Streamlit으로 **KPI / 프로모션 타겟팅 / 구독자 관리 / 매출 리포트 / 고객 CSV 분석** 5개 탭과 매출 시뮬레이터를 구현했습니다.
 
@@ -296,9 +267,7 @@ streamlit run dashboard/frontend/app.py   # http://localhost:8501  (Streamlit)
 
 ```
 E_Commerce_Uplift_Analysis/
-├── presentation/                     # ★ 최종 발표 자료
-│   ├── B1조_빅데이터_이커머스_최종발표.pdf   # 발표 덱 (19장)
-│   └── slides/                           # 슬라이드 낱장 이미지(PNG)
+├── presentation/                     # ★ 최종 발표 자료 (PDF 19장)
 ├── docs/                             # 기술 문서
 │   ├── 기술_상세_문서.md                  # ★ 방법론·검증 전문 (README의 근거)
 │   ├── PRD.md                            # 프로젝트 정의서
@@ -357,18 +326,7 @@ python src/run25_targeting_roi.py  # 전략별 ROI 시뮬레이션
 
 ---
 
-## 📚 더 읽을거리
-
-| 문서 | 내용 |
-|---|---|
-| [`presentation/B1조_빅데이터_이커머스_최종발표.pdf`](presentation/B1조_빅데이터_이커머스_최종발표.pdf) | **최종 발표 자료 (19장)** |
-| [`docs/기술_상세_문서.md`](docs/기술_상세_문서.md) | **방법론·검증 전문** — 메타러너 3계열 비교, Qini/AUUC, DML 스트레스 테스트, 가설 H1–H4 검증 |
-| [`docs/PRD.md`](docs/PRD.md) | 프로젝트 정의서 — 배경·KPI·데이터·설계·결과·한계 총괄 |
-| [`docs/모델링_통합결과_H1_H4.md`](docs/모델링_통합결과_H1_H4.md) | 가설별 검증 수치 근거 |
-| [`docs/리더보드_run10.md`](docs/리더보드_run10.md) | 전체 모델 리더보드 · 이중검증 · 교차검증 |
-| [`notebooks/A파트_Uplift모델링_노트북.ipynb`](notebooks/A파트_Uplift모델링_노트북.ipynb) | 전처리–최종 타겟팅 전 과정의 실행결과 포함 노트북 |
-
-### 참고 문헌
+## 📚 참고 문헌
 
 - Künzel, S. R., Sekhon, J. S., Bickel, P. J., & Yu, B. (2019). *Metalearners for estimating heterogeneous treatment effects using machine learning.* PNAS, 116(10).
 - Chernozhukov, V., et al. (2018). *Double/Debiased Machine Learning for Treatment and Structural Parameters.* The Econometrics Journal, 21(1).
